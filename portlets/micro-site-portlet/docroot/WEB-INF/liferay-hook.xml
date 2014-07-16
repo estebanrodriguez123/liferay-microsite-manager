@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
+
+<hook>
+	<portal-properties>portal.properties</portal-properties>
+	<language-properties>content/language.properties</language-properties>
+	<custom-jsp-dir>/custom_jsps</custom-jsp-dir>
+	<struts-action>
+		<struts-action-path>/layout_set_prototypes/edit_layout_set_prototype</struts-action-path>
+		<struts-action-impl>com.rivetlogic.microsite.action.struts.LayoutCustomFieldsAction</struts-action-impl>
+	</struts-action>
+</hook>

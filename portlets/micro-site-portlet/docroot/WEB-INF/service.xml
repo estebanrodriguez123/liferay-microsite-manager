@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
+<service-builder package-path="com.rivetlogic.microsite">
+	<author>steven.barba</author>
+	<namespace>rivetlogic_micro_site</namespace>
+
+	<entity name="MicroSite" local-service="true" remote-service="false">
+
+		<!-- PK fields -->
+
+		<column name="microSiteId" type="long" primary="true" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="userId" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="MicroSite">
+			<finder-column name="groupId"/>
+		</finder>
+		
+		<finder name="CompanyUser" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="userId" />
+		</finder>
+		
+		<finder name="CompanyGroupUser" return-type="MicroSite">
+			<finder-column name="companyId"/>
+			<finder-column name="groupId"/>
+			<finder-column name="userId"/>
+		</finder>
+	</entity>
+</service-builder>
