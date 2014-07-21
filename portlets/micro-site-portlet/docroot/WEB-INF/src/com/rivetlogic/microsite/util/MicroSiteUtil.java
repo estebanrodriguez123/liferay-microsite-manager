@@ -49,6 +49,7 @@ import com.rivetlogic.microsite.bean.impl.MicroSiteBeanImpl;
 import com.rivetlogic.microsite.bean.impl.SiteTemplateBeanImpl;
 import com.rivetlogic.microsite.model.MicroSite;
 import com.rivetlogic.microsite.service.MicroSiteLocalServiceUtil;
+import com.sun.tools.javac.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,14 +119,20 @@ public class MicroSiteUtil {
         List<LayoutSetPrototype> layoutSetPrototypes = 
                 LayoutSetPrototypeLocalServiceUtil.getLayoutSetPrototypes(themeDisplay.getCompanyId());
         for (LayoutSetPrototype layoutSetPrototype : layoutSetPrototypes) {
-        	boolean allowedToUse = (Boolean) layoutSetPrototype.getExpandoBridge()
-        			.getAttribute(ExpandoStartupAction.COLUMN_NAME);
-        	if(allowedToUse){
-        		siteTemplateBean = new SiteTemplateBeanImpl();
-                siteTemplateBean.setId(layoutSetPrototype.getLayoutSetPrototypeId());
-                siteTemplateBean.setName(layoutSetPrototype.getNameCurrentValue());
-                siteTemplateBeans.add(siteTemplateBean);
+        	
+        	Boolean hasAttribute = layoutSetPrototype.getExpandoBridge().hasAttribute(ExpandoStartupAction.COLUMN_NAME);
+        	
+        	if(hasAttribute){
+        		boolean allowedToUse = (Boolean) layoutSetPrototype.getExpandoBridge()
+            			.getAttribute(ExpandoStartupAction.COLUMN_NAME);
+            	if(allowedToUse){
+            		siteTemplateBean = new SiteTemplateBeanImpl();
+                    siteTemplateBean.setId(layoutSetPrototype.getLayoutSetPrototypeId());
+                    siteTemplateBean.setName(layoutSetPrototype.getNameCurrentValue());
+                    siteTemplateBeans.add(siteTemplateBean);
+            	}
         	}
+        	
             
         }
         return siteTemplateBeans;

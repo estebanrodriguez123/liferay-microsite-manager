@@ -22,6 +22,12 @@ import com.liferay.portal.kernel.events.SimpleAction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.LayoutSetPrototype;
+import com.liferay.portal.model.ResourceConstants;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.model.RoleConstants;
+import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portlet.expando.DuplicateColumnNameException;
 import com.liferay.portlet.expando.DuplicateTableNameException;
 import com.liferay.portlet.expando.model.ExpandoColumn;
@@ -64,10 +70,15 @@ public class ExpandoStartupAction extends SimpleAction {
 		long tableId = table.getTableId();
 
 		try {
+			Role guestUserRole = RoleLocalServiceUtil.getRole(companyId, RoleConstants.USER);
+			
 			ExpandoColumn column = ExpandoColumnLocalServiceUtil.addColumn(
 				tableId, COLUMN_NAME, ExpandoColumnConstants.BOOLEAN);
 			
 			ExpandoColumnLocalServiceUtil.updateExpandoColumn(column);
+			ResourcePermissionLocalServiceUtil.setResourcePermissions(companyId, 
+	                  ExpandoColumn.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, 
+	                  String.valueOf(column.getColumnId()), guestUserRole.getRoleId(), new String[] { ActionKeys.VIEW});
 		}
 		catch(DuplicateColumnNameException dcne) {
 			LOG.debug("Expando" +  COLUMN_NAME + " already exist!");

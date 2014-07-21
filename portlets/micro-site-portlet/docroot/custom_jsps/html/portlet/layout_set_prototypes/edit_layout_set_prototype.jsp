@@ -78,7 +78,7 @@ request.setAttribute("edit_layout_set_prototype.jsp-redirect", currentURL);
 		
 		<div class="ctrl-holder">
 			<liferay-ui:custom-attribute
-					className="com.liferay.portal.model.LayoutSetPrototype"
+					className="com.liferay.portal.model.LayoutSetPrototype:checkboxes"
 					classPK="<%= (layoutSetPrototype.isNew()) ? 0 : layoutSetPrototype.getLayoutSetPrototypeId()  %>"
 					editable="<%= true %>"
 					label="<%= true %>"
