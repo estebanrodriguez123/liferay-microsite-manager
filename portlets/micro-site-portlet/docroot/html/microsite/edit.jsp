@@ -113,7 +113,7 @@ List<SiteTemplateBean> siteTemplateBeans = MicroSiteUtil.getSiteTemplateList(ren
 								type="checkbox" checked="<%= microSiteBean.isPublicLayoutSetPrototypeLinkEnabled() %>"></aui:input>
 						</liferay-ui:panel>
 						<liferay-ui:panel title="private-pages">
-							<aui:select name="privateLayoutSetPrototypeId" label="micro-site-template" showEmptyOption="true">
+							<aui:select name="privateLayoutSetPrototypeId" label="micro-site-template">
 								<aui:option label="none" value="0" selected="<%= microSiteBean.getPrivateLayoutSetPrototypeId() == MicroSiteConstants.LONG_MIN_VALUE %>"></aui:option>
 								<c:forEach var="siteTemplate" items="<%= siteTemplateBeans %>">
 									<c:choose>
