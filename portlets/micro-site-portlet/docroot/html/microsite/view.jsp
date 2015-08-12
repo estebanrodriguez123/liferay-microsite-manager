@@ -31,7 +31,9 @@
 
 <aui:fieldset label="micro-sites-list">
 	<aui:fieldset>
-		<aui:button type="button" value="&nbsp;Add" cssClass="btn btn-large  btn-primary icon-plus" onClick="${addMicroSitesURL}"/>
+		<aui:a href="${addMicroSitesURL}">
+			<aui:button type="button" value="&nbsp;Add" cssClass="btn btn-large  btn-primary icon-plus"/>
+		</aui:a>
 	</aui:fieldset>
 	<liferay-ui:search-container delta="<%=MicroSiteConstants.NUMBER_OF_ROWS%>" emptyResultsMessage="no-micro-sites-were-found">
 		<liferay-ui:search-container-results 
@@ -56,8 +58,9 @@
 						<portlet:actionURL var="activateSiteURL" name="activateSite">
 							<portlet:param name="microSiteId" value="${microsite.microSiteId}"/>
 						</portlet:actionURL>
-						
-						<aui:button type="submit" href="${activateSiteURL}" value="activate"/>
+						<aui:a href="${activateSiteURL}">
+							<aui:button type="submit" href="${activateSiteURL}" value="activate"/>
+						</aui:a>
 					</c:otherwise>
 				</c:choose>
 				

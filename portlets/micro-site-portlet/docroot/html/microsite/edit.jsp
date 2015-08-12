@@ -137,7 +137,9 @@ List<SiteTemplateBean> siteTemplateBeans = MicroSiteUtil.getSiteTemplateList(ren
 			</aui:fieldset>
 		</aui:column>
 		<aui:button-row>
-			<aui:button type="cancel" onClick="<%= backURL %>" value="back-button"/>
+			<aui:a href="<%=backURL %>">
+				<aui:button type="cancel" value="back-button"/>
+			</aui:a>
 			<aui:button name="createUpdateButton" value='<%= editMode ? "edit-button" : "create-button" %>' type="submit"/>
 		</aui:button-row>
 	</aui:form>
