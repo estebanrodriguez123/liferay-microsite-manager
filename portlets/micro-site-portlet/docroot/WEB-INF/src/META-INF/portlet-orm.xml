@@ -26,8 +26,33 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.rivetlogic.microsite.model.impl.SiteRequestModelImpl">
+		<attributes>
+			<id name="siteRequestId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="userId" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="status" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="com.rivetlogic.microsite.model.impl.MicroSiteImpl" name="MicroSite">
 		<table name="rivetlogic_micro_site_MicroSite" />
+		<attributes />
+	</entity>
+	<entity class="com.rivetlogic.microsite.model.impl.SiteRequestImpl" name="SiteRequest">
+		<table name="rivetlogic_micro_site_SiteRequest" />
 		<attributes />
 	</entity>
 </entity-mappings>

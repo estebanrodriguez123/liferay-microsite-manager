@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.messaging.Message;
 
 import com.rivetlogic.microsite.service.ClpSerializer;
 import com.rivetlogic.microsite.service.MicroSiteLocalServiceUtil;
+import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
 
 /**
  * @author steven.barba
@@ -36,6 +37,8 @@ public class ClpMessageListener extends BaseMessageListener {
 		if (command.equals("undeploy") &&
 				servletContextName.equals(getServletContextName())) {
 			MicroSiteLocalServiceUtil.clearService();
+
+			SiteRequestLocalServiceUtil.clearService();
 		}
 	}
 }

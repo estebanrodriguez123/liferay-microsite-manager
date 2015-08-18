@@ -68,4 +68,13 @@ public class MicroSiteConstants {
     public final static String MICRO_SITE_ACTIVE_YES = "Yes";
     public final static String MICRO_SITE_ACTIVE_NO = "No";
     
+    public final static String SITE_REQUESTS_LIST = "siteRequestsList";
+    public final static String SITE_REQUEST_ID = "siteRequestId";
+    public final static String SITE_REQUEST_NAME = "name";
+    public final static String SITE_REQUEST_DESCRIPTION = "description";
+    
+    public static final String REQUEST_STATUS_PENDING = "pending";
+    public static final String REQUEST_STATUS_PROCESSING = "processing";
+    public static final String REQUEST_STATUS_COMPLETE = "complete";
+    
 }

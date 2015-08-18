@@ -9,4 +9,12 @@
 		<struts-action-path>/layout_set_prototypes/edit_layout_set_prototype</struts-action-path>
 		<struts-action-impl>com.rivetlogic.microsite.action.struts.LayoutCustomFieldsAction</struts-action-impl>
 	</struts-action>
+    <struts-action>
+        <struts-action-path>/my_sites/add_site_request</struts-action-path>
+        <struts-action-impl>com.rivetlogic.microsite.action.struts.MySitesCustomAction</struts-action-impl>
+    </struts-action>
+    <struts-action>
+        <struts-action-path>/my_sites/view</struts-action-path>
+        <struts-action-impl>com.rivetlogic.microsite.action.struts.MySitesCustomAction</struts-action-impl>
+    </struts-action>
 </hook>

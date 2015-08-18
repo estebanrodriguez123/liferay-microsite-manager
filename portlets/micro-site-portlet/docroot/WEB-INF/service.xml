@@ -45,4 +45,39 @@
 			<finder-column name="userId"/>
 		</finder>
 	</entity>
+	
+	<entity name="SiteRequest" local-service="true"
+		remote-service="false" human-name="Site Request">
+
+		<!-- PK fields -->
+
+		<column name="siteRequestId" type="long" primary="true"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="name" type="String"></column>
+        <column name="description" type="String"></column>
+        <column name="status" type="String"></column>
+        <order by="desc">
+            <order-column order-by="desc" name="createDate"></order-column>
+        </order>
+        
+        <finder name="CompanyGroup" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="CompanyGroupUser" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="userId"></finder-column>
+        </finder>
+	</entity>
 </service-builder>

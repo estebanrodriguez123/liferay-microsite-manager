@@ -3,6 +3,7 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="com.rivetlogic.microsite.model.MicroSite" />
+	<import class="com.rivetlogic.microsite.model.SiteRequest" />
 	<class name="com.rivetlogic.microsite.model.impl.MicroSiteImpl" table="rivetlogic_micro_site_MicroSite">
 		<cache usage="read-write" />
 		<id name="microSiteId" type="long">
@@ -14,5 +15,19 @@
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.rivetlogic.microsite.model.impl.SiteRequestImpl" table="rivetlogic_micro_site_SiteRequest">
+		<cache usage="read-write" />
+		<id name="siteRequestId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>
