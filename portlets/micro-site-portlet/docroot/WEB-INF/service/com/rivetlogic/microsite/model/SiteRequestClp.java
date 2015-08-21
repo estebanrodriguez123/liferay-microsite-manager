@@ -16,6 +16,7 @@ package com.rivetlogic.microsite.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
@@ -23,7 +24,7 @@ import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.util.PortalUtil;
 
 import com.rivetlogic.microsite.service.ClpSerializer;
-import com.rivetlogic.microsite.service.MicroSiteLocalServiceUtil;
+import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
 
 import java.io.Serializable;
 
@@ -36,33 +37,34 @@ import java.util.Map;
 /**
  * @author steven.barba
  */
-public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite {
-	public MicroSiteClp() {
+public class SiteRequestClp extends BaseModelImpl<SiteRequest>
+	implements SiteRequest {
+	public SiteRequestClp() {
 	}
 
 	@Override
 	public Class<?> getModelClass() {
-		return MicroSite.class;
+		return SiteRequest.class;
 	}
 
 	@Override
 	public String getModelClassName() {
-		return MicroSite.class.getName();
+		return SiteRequest.class.getName();
 	}
 
 	@Override
 	public long getPrimaryKey() {
-		return _microSiteId;
+		return _siteRequestId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setMicroSiteId(primaryKey);
+		setSiteRequestId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _microSiteId;
+		return _siteRequestId;
 	}
 
 	@Override
@@ -74,23 +76,31 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("microSiteId", getMicroSiteId());
+		attributes.put("siteRequestId", getSiteRequestId());
+		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("groupId", getGroupId());
+		attributes.put("name", getName());
+		attributes.put("description", getDescription());
+		attributes.put("status", getStatus());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long microSiteId = (Long)attributes.get("microSiteId");
+		Long siteRequestId = (Long)attributes.get("siteRequestId");
 
-		if (microSiteId != null) {
-			setMicroSiteId(microSiteId);
+		if (siteRequestId != null) {
+			setSiteRequestId(siteRequestId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -105,12 +115,6 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 			setUserId(userId);
 		}
 
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
 		Date createDate = (Date)attributes.get("createDate");
 
 		if (createDate != null) {
@@ -123,29 +127,64 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 			setModifiedDate(modifiedDate);
 		}
 
-		Long groupId = (Long)attributes.get("groupId");
+		String name = (String)attributes.get("name");
 
-		if (groupId != null) {
-			setGroupId(groupId);
+		if (name != null) {
+			setName(name);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
+		}
+
+		String status = (String)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
 	@Override
-	public long getMicroSiteId() {
-		return _microSiteId;
+	public long getSiteRequestId() {
+		return _siteRequestId;
 	}
 
 	@Override
-	public void setMicroSiteId(long microSiteId) {
-		_microSiteId = microSiteId;
+	public void setSiteRequestId(long siteRequestId) {
+		_siteRequestId = siteRequestId;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setMicroSiteId", long.class);
+				Method method = clazz.getMethod("setSiteRequestId", long.class);
 
-				method.invoke(_microSiteRemoteModel, microSiteId);
+				method.invoke(_siteRequestRemoteModel, siteRequestId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+
+		if (_siteRequestRemoteModel != null) {
+			try {
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setGroupId", long.class);
+
+				method.invoke(_siteRequestRemoteModel, groupId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -162,13 +201,13 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	public void setCompanyId(long companyId) {
 		_companyId = companyId;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setCompanyId", long.class);
 
-				method.invoke(_microSiteRemoteModel, companyId);
+				method.invoke(_siteRequestRemoteModel, companyId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -185,13 +224,13 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	public void setUserId(long userId) {
 		_userId = userId;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setUserId", long.class);
 
-				method.invoke(_microSiteRemoteModel, userId);
+				method.invoke(_siteRequestRemoteModel, userId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -210,29 +249,6 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	}
 
 	@Override
-	public String getUserName() {
-		return _userName;
-	}
-
-	@Override
-	public void setUserName(String userName) {
-		_userName = userName;
-
-		if (_microSiteRemoteModel != null) {
-			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setUserName", String.class);
-
-				method.invoke(_microSiteRemoteModel, userName);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -241,13 +257,13 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	public void setCreateDate(Date createDate) {
 		_createDate = createDate;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setCreateDate", Date.class);
 
-				method.invoke(_microSiteRemoteModel, createDate);
+				method.invoke(_siteRequestRemoteModel, createDate);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -264,13 +280,13 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	public void setModifiedDate(Date modifiedDate) {
 		_modifiedDate = modifiedDate;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setModifiedDate", Date.class);
 
-				method.invoke(_microSiteRemoteModel, modifiedDate);
+				method.invoke(_siteRequestRemoteModel, modifiedDate);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -279,21 +295,21 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	}
 
 	@Override
-	public long getGroupId() {
-		return _groupId;
+	public String getName() {
+		return _name;
 	}
 
 	@Override
-	public void setGroupId(long groupId) {
-		_groupId = groupId;
+	public void setName(String name) {
+		_name = name;
 
-		if (_microSiteRemoteModel != null) {
+		if (_siteRequestRemoteModel != null) {
 			try {
-				Class<?> clazz = _microSiteRemoteModel.getClass();
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setGroupId", long.class);
+				Method method = clazz.getMethod("setName", String.class);
 
-				method.invoke(_microSiteRemoteModel, groupId);
+				method.invoke(_siteRequestRemoteModel, name);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -301,12 +317,58 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		}
 	}
 
-	public BaseModel<?> getMicroSiteRemoteModel() {
-		return _microSiteRemoteModel;
+	@Override
+	public String getDescription() {
+		return _description;
 	}
 
-	public void setMicroSiteRemoteModel(BaseModel<?> microSiteRemoteModel) {
-		_microSiteRemoteModel = microSiteRemoteModel;
+	@Override
+	public void setDescription(String description) {
+		_description = description;
+
+		if (_siteRequestRemoteModel != null) {
+			try {
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setDescription", String.class);
+
+				method.invoke(_siteRequestRemoteModel, description);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(String status) {
+		_status = status;
+
+		if (_siteRequestRemoteModel != null) {
+			try {
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setStatus", String.class);
+
+				method.invoke(_siteRequestRemoteModel, status);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	public BaseModel<?> getSiteRequestRemoteModel() {
+		return _siteRequestRemoteModel;
+	}
+
+	public void setSiteRequestRemoteModel(BaseModel<?> siteRequestRemoteModel) {
+		_siteRequestRemoteModel = siteRequestRemoteModel;
 	}
 
 	public Object invokeOnRemoteModel(String methodName,
@@ -320,7 +382,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 			}
 		}
 
-		Class<?> remoteModelClass = _microSiteRemoteModel.getClass();
+		Class<?> remoteModelClass = _siteRequestRemoteModel.getClass();
 
 		ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
 
@@ -340,7 +402,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		Method method = remoteModelClass.getMethod(methodName,
 				remoteParameterTypes);
 
-		Object returnValue = method.invoke(_microSiteRemoteModel,
+		Object returnValue = method.invoke(_siteRequestRemoteModel,
 				remoteParameterValues);
 
 		if (returnValue != null) {
@@ -353,47 +415,43 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	@Override
 	public void persist() throws SystemException {
 		if (this.isNew()) {
-			MicroSiteLocalServiceUtil.addMicroSite(this);
+			SiteRequestLocalServiceUtil.addSiteRequest(this);
 		}
 		else {
-			MicroSiteLocalServiceUtil.updateMicroSite(this);
+			SiteRequestLocalServiceUtil.updateSiteRequest(this);
 		}
 	}
 
 	@Override
-	public MicroSite toEscapedModel() {
-		return (MicroSite)ProxyUtil.newProxyInstance(MicroSite.class.getClassLoader(),
-			new Class[] { MicroSite.class }, new AutoEscapeBeanHandler(this));
+	public SiteRequest toEscapedModel() {
+		return (SiteRequest)ProxyUtil.newProxyInstance(SiteRequest.class.getClassLoader(),
+			new Class[] { SiteRequest.class }, new AutoEscapeBeanHandler(this));
 	}
 
 	@Override
 	public Object clone() {
-		MicroSiteClp clone = new MicroSiteClp();
+		SiteRequestClp clone = new SiteRequestClp();
 
-		clone.setMicroSiteId(getMicroSiteId());
+		clone.setSiteRequestId(getSiteRequestId());
+		clone.setGroupId(getGroupId());
 		clone.setCompanyId(getCompanyId());
 		clone.setUserId(getUserId());
-		clone.setUserName(getUserName());
 		clone.setCreateDate(getCreateDate());
 		clone.setModifiedDate(getModifiedDate());
-		clone.setGroupId(getGroupId());
+		clone.setName(getName());
+		clone.setDescription(getDescription());
+		clone.setStatus(getStatus());
 
 		return clone;
 	}
 
 	@Override
-	public int compareTo(MicroSite microSite) {
+	public int compareTo(SiteRequest siteRequest) {
 		int value = 0;
 
-		if (getUserId() < microSite.getUserId()) {
-			value = -1;
-		}
-		else if (getUserId() > microSite.getUserId()) {
-			value = 1;
-		}
-		else {
-			value = 0;
-		}
+		value = DateUtil.compareTo(getCreateDate(), siteRequest.getCreateDate());
+
+		value = value * -1;
 
 		if (value != 0) {
 			return value;
@@ -408,13 +466,13 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 			return true;
 		}
 
-		if (!(obj instanceof MicroSiteClp)) {
+		if (!(obj instanceof SiteRequestClp)) {
 			return false;
 		}
 
-		MicroSiteClp microSite = (MicroSiteClp)obj;
+		SiteRequestClp siteRequest = (SiteRequestClp)obj;
 
-		long primaryKey = microSite.getPrimaryKey();
+		long primaryKey = siteRequest.getPrimaryKey();
 
 		if (getPrimaryKey() == primaryKey) {
 			return true;
@@ -435,22 +493,26 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(19);
 
-		sb.append("{microSiteId=");
-		sb.append(getMicroSiteId());
+		sb.append("{siteRequestId=");
+		sb.append(getSiteRequestId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
 		sb.append(", userId=");
 		sb.append(getUserId());
-		sb.append(", userName=");
-		sb.append(getUserName());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
-		sb.append(", groupId=");
-		sb.append(getGroupId());
+		sb.append(", name=");
+		sb.append(getName());
+		sb.append(", description=");
+		sb.append(getDescription());
+		sb.append(", status=");
+		sb.append(getStatus());
 		sb.append("}");
 
 		return sb.toString();
@@ -458,15 +520,19 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
-		sb.append("com.rivetlogic.microsite.model.MicroSite");
+		sb.append("com.rivetlogic.microsite.model.SiteRequest");
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>microSiteId</column-name><column-value><![CDATA[");
-		sb.append(getMicroSiteId());
+			"<column><column-name>siteRequestId</column-name><column-value><![CDATA[");
+		sb.append(getSiteRequestId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
@@ -477,10 +543,6 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		sb.append(getUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>userName</column-name><column-value><![CDATA[");
-		sb.append(getUserName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
 		sb.append("]]></column-value></column>");
@@ -489,8 +551,16 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>groupId</column-name><column-value><![CDATA[");
-		sb.append(getGroupId());
+			"<column><column-name>name</column-name><column-value><![CDATA[");
+		sb.append(getName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>description</column-name><column-value><![CDATA[");
+		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -498,14 +568,16 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		return sb.toString();
 	}
 
-	private long _microSiteId;
+	private long _siteRequestId;
+	private long _groupId;
 	private long _companyId;
 	private long _userId;
 	private String _userUuid;
-	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private long _groupId;
-	private BaseModel<?> _microSiteRemoteModel;
+	private String _name;
+	private String _description;
+	private String _status;
+	private BaseModel<?> _siteRequestRemoteModel;
 	private Class<?> _clpSerializerClass = com.rivetlogic.microsite.service.ClpSerializer.class;
 }

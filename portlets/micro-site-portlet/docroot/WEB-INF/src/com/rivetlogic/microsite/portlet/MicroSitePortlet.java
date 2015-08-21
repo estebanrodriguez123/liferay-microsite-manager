@@ -30,12 +30,12 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.rivetlogic.microsite.bean.MicroSiteBean;
 import com.rivetlogic.microsite.bean.impl.MicroSiteBeanImpl;
+import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
 import com.rivetlogic.microsite.util.MicroSiteConstants;
 import com.rivetlogic.microsite.util.MicroSiteUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -53,13 +53,17 @@ public class MicroSitePortlet extends MVCPortlet {
     public void doView(RenderRequest request, RenderResponse response) 
             throws IOException, PortletException {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        
+        String tabs1 = request.getParameter("tabs1");
+        request.setAttribute("tabs1", tabs1);
         try {
             if(themeDisplay.isSignedIn()) {
                 long companyId = themeDisplay.getCompanyId();
                 long userId = themeDisplay.getUserId();
                 request.setAttribute(MicroSiteConstants.MICRO_SITES_LIST,
                         MicroSiteUtil.findAllMicroSites(companyId, userId));
+                request.setAttribute(MicroSiteConstants.SITE_REQUESTS_LIST,
+                        SiteRequestLocalServiceUtil.findByCompanyGroup(
+                                themeDisplay.getCompanyGroupId(), themeDisplay.getScopeGroupId()));
             } else {
                 request.setAttribute(MicroSiteConstants.MICRO_SITES_LIST, new ArrayList<MicroSiteBean>());
             }
@@ -126,6 +130,20 @@ public class MicroSitePortlet extends MVCPortlet {
     	
     }
     
+    
+    public void updateStatus(ActionRequest request, ActionResponse response) throws IOException {
+        long siteRequestId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_ID, -1);
+        
+        if(siteRequestId >= 0) {
+            try {
+                SiteRequestLocalServiceUtil.updateStatus(siteRequestId);
+            } catch (Exception e) {
+                _log.error(e);
+            }
+        }
+        
+        sendRedirect(request, response);
+    }
     
     private static final Log _log = LogFactoryUtil.getLog(MicroSitePortlet.class);
 }

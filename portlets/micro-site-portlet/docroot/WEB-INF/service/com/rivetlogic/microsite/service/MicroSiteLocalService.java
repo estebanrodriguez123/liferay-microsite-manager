@@ -16,6 +16,7 @@ package com.rivetlogic.microsite.service;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -52,6 +53,7 @@ public interface MicroSiteLocalService extends BaseLocalService,
 	* @return the micro site that was added
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.rivetlogic.microsite.model.MicroSite addMicroSite(
 		com.rivetlogic.microsite.model.MicroSite microSite)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -73,6 +75,7 @@ public interface MicroSiteLocalService extends BaseLocalService,
 	* @throws PortalException if a micro site with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.rivetlogic.microsite.model.MicroSite deleteMicroSite(
 		long microSiteId)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -85,6 +88,7 @@ public interface MicroSiteLocalService extends BaseLocalService,
 	* @return the micro site that was removed
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.rivetlogic.microsite.model.MicroSite deleteMicroSite(
 		com.rivetlogic.microsite.model.MicroSite microSite)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -226,6 +230,7 @@ public interface MicroSiteLocalService extends BaseLocalService,
 	* @return the micro site that was updated
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.rivetlogic.microsite.model.MicroSite updateMicroSite(
 		com.rivetlogic.microsite.model.MicroSite microSite)
 		throws com.liferay.portal.kernel.exception.SystemException;
