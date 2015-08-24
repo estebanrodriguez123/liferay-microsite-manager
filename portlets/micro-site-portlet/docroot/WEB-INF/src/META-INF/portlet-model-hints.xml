@@ -20,5 +20,6 @@
 		<field name="name" type="String" />
 		<field name="description" type="String" />
 		<field name="status" type="String" />
+		<field name="response" type="String" />
 	</model>
 </model-hints>

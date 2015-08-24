@@ -17,5 +17,6 @@ create table rivetlogic_micro_site_SiteRequest (
 	modifiedDate DATE null,
 	name VARCHAR(75) null,
 	description VARCHAR(75) null,
-	status VARCHAR(75) null
+	status VARCHAR(75) null,
+	response VARCHAR(75) null
 );

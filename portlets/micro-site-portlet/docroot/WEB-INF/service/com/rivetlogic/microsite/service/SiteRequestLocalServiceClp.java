@@ -145,7 +145,9 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 
 		_methodName25 = "updateStatus";
 
-		_methodParameterTypes25 = new String[] { "long" };
+		_methodParameterTypes25 = new String[] {
+				"long", "java.lang.String", "java.lang.String"
+			};
 	}
 
 	@Override
@@ -881,12 +883,20 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 	}
 
 	@Override
-	public void updateStatus(long siteRequestId)
+	public void updateStatus(long siteRequestId, java.lang.String newStatus,
+		java.lang.String message)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName25,
-				_methodParameterTypes25, new Object[] { siteRequestId });
+				_methodParameterTypes25,
+				new Object[] {
+					siteRequestId,
+					
+				ClpSerializer.translateInput(newStatus),
+					
+				ClpSerializer.translateInput(message)
+				});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

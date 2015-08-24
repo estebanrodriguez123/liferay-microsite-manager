@@ -66,6 +66,7 @@
         <column name="name" type="String"></column>
         <column name="description" type="String"></column>
         <column name="status" type="String"></column>
+        <column name="response" type="String"></column>
         <order by="desc">
             <order-column order-by="desc" name="createDate"></order-column>
         </order>

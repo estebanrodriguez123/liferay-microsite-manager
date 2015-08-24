@@ -116,21 +116,7 @@
 					<liferay-ui:search-container-column-text name="site-request-status">
 						<liferay-ui:message key="site-request-status-${ siteRequest.status}" />
 					</liferay-ui:search-container-column-text>
-					<liferay-ui:search-container-column-text name="site-request-actions">
-						<portlet:actionURL name="updateStatus" var="statusURL">
-							<portlet:param name="<%=MicroSiteConstants.SITE_REQUEST_ID %>" value="${siteRequest.siteRequestId }"/>
-							<portlet:param name="redirect" value="<%=currentURL %>"/>
-						</portlet:actionURL>
-						<c:choose>
-							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PENDING) %>">
-								
-								<aui:button value="site-request-process" href="<%= statusURL.toString() %>" />
-							</c:when>
-							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PROCESSING) %>">
-								<aui:button value="site-request-complete" href="<%= statusURL.toString() %>" />
-							</c:when>
-						</c:choose>
-					</liferay-ui:search-container-column-text>
+					<liferay-ui:search-container-column-jsp path="/html/microsite/request_actions.jsp" align="right" />
 				</liferay-ui:search-container-row>
 				<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" />
 			</liferay-ui:search-container>

@@ -39,6 +39,7 @@ public class SiteRequestSoap implements Serializable {
 		soapModel.setName(model.getName());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setStatus(model.getStatus());
+		soapModel.setResponse(model.getResponse());
 
 		return soapModel;
 	}
@@ -163,6 +164,14 @@ public class SiteRequestSoap implements Serializable {
 		_status = status;
 	}
 
+	public String getResponse() {
+		return _response;
+	}
+
+	public void setResponse(String response) {
+		_response = response;
+	}
+
 	private long _siteRequestId;
 	private long _groupId;
 	private long _companyId;
@@ -172,4 +181,5 @@ public class SiteRequestSoap implements Serializable {
 	private String _name;
 	private String _description;
 	private String _status;
+	private String _response;
 }

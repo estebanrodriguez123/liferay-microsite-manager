@@ -144,7 +144,9 @@ public class SiteRequestLocalServiceClpInvoker {
 
 		_methodName48 = "updateStatus";
 
-		_methodParameterTypes48 = new String[] { "long" };
+		_methodParameterTypes48 = new String[] {
+				"long", "java.lang.String", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -293,7 +295,8 @@ public class SiteRequestLocalServiceClpInvoker {
 
 		if (_methodName48.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
-			SiteRequestLocalServiceUtil.updateStatus(((Long)arguments[0]).longValue());
+			SiteRequestLocalServiceUtil.updateStatus(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2]);
 
 			return null;
 		}

@@ -59,6 +59,7 @@ public class SiteRequestWrapper implements SiteRequest,
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
 		attributes.put("status", getStatus());
+		attributes.put("response", getResponse());
 
 		return attributes;
 	}
@@ -117,6 +118,12 @@ public class SiteRequestWrapper implements SiteRequest,
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		String response = (String)attributes.get("response");
+
+		if (response != null) {
+			setResponse(response);
 		}
 	}
 
@@ -340,6 +347,26 @@ public class SiteRequestWrapper implements SiteRequest,
 	@Override
 	public void setStatus(java.lang.String status) {
 		_siteRequest.setStatus(status);
+	}
+
+	/**
+	* Returns the response of this Site Request.
+	*
+	* @return the response of this Site Request
+	*/
+	@Override
+	public java.lang.String getResponse() {
+		return _siteRequest.getResponse();
+	}
+
+	/**
+	* Sets the response of this Site Request.
+	*
+	* @param response the response of this Site Request
+	*/
+	@Override
+	public void setResponse(java.lang.String response) {
+		_siteRequest.setResponse(response);
 	}
 
 	@Override
