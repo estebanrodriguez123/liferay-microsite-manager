@@ -62,6 +62,9 @@ public class MySitesCustomAction extends BaseStrutsPortletAction {
                 Map values = new HashMap();
                 values.put("name", siteRequest.getName());
                 values.put("status", siteRequest.getStatus());
+                if(siteRequest.getStatus().equals("rejected")) {
+                    values.put("response", siteRequest.getResponse());
+                }
                 values.put("modifiedDate", siteRequest.getModifiedDate());
                 siteRequestValues.add(values);
             }

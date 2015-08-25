@@ -72,9 +72,12 @@ public class MicroSiteConstants {
     public final static String SITE_REQUEST_ID = "siteRequestId";
     public final static String SITE_REQUEST_NAME = "name";
     public final static String SITE_REQUEST_DESCRIPTION = "description";
+    public final static String SITE_REQUEST_RESPONSE = "response";
+    public final static String SITE_REQUEST_STATUS = "status";
     
     public static final String REQUEST_STATUS_PENDING = "pending";
     public static final String REQUEST_STATUS_PROCESSING = "processing";
     public static final String REQUEST_STATUS_COMPLETE = "complete";
+    public static final String REQUEST_STATUS_REJECTED = "rejected";
     
 }

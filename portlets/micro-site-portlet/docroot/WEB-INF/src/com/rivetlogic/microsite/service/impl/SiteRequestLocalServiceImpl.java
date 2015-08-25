@@ -87,14 +87,14 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         siteRequestPersistence.update(siteRequest);
     }
     
-    public void updateStatus(long siteRequestId)
+    public void updateStatus(long siteRequestId, String newStatus, String message)
             throws NoSuchSiteRequestException, SystemException {
         SiteRequest siteRequest = siteRequestPersistence.findByPrimaryKey(siteRequestId);
-        if(siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PENDING))
-            siteRequest.setStatus(MicroSiteConstants.REQUEST_STATUS_PROCESSING);
-        else if(siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PROCESSING))
-            siteRequest.setStatus(MicroSiteConstants.REQUEST_STATUS_COMPLETE);
         
+        if(message != null) {
+            siteRequest.setResponse(message);
+        }
+        siteRequest.setStatus(newStatus);
         siteRequest.setModifiedDate(new Date());
         
         siteRequestPersistence.update(siteRequest);

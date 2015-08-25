@@ -85,6 +85,7 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
 		attributes.put("status", getStatus());
+		attributes.put("response", getResponse());
 
 		return attributes;
 	}
@@ -143,6 +144,12 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		String response = (String)attributes.get("response");
+
+		if (response != null) {
+			setResponse(response);
 		}
 	}
 
@@ -363,6 +370,29 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 		}
 	}
 
+	@Override
+	public String getResponse() {
+		return _response;
+	}
+
+	@Override
+	public void setResponse(String response) {
+		_response = response;
+
+		if (_siteRequestRemoteModel != null) {
+			try {
+				Class<?> clazz = _siteRequestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setResponse", String.class);
+
+				method.invoke(_siteRequestRemoteModel, response);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getSiteRequestRemoteModel() {
 		return _siteRequestRemoteModel;
 	}
@@ -441,6 +471,7 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 		clone.setName(getName());
 		clone.setDescription(getDescription());
 		clone.setStatus(getStatus());
+		clone.setResponse(getResponse());
 
 		return clone;
 	}
@@ -493,7 +524,7 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{siteRequestId=");
 		sb.append(getSiteRequestId());
@@ -513,6 +544,8 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 		sb.append(getDescription());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", response=");
+		sb.append(getResponse());
 		sb.append("}");
 
 		return sb.toString();
@@ -520,7 +553,7 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.microsite.model.SiteRequest");
@@ -562,6 +595,10 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>response</column-name><column-value><![CDATA[");
+		sb.append(getResponse());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -578,6 +615,7 @@ public class SiteRequestClp extends BaseModelImpl<SiteRequest>
 	private String _name;
 	private String _description;
 	private String _status;
+	private String _response;
 	private BaseModel<?> _siteRequestRemoteModel;
 	private Class<?> _clpSerializerClass = com.rivetlogic.microsite.service.ClpSerializer.class;
 }

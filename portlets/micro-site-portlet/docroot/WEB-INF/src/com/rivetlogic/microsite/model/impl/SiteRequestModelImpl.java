@@ -70,9 +70,10 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "name", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
-			{ "status", Types.VARCHAR }
+			{ "status", Types.VARCHAR },
+			{ "response", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_SiteRequest (siteRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,description VARCHAR(75) null,status VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_SiteRequest (siteRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,description VARCHAR(75) null,status VARCHAR(75) null,response VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_micro_site_SiteRequest";
 	public static final String ORDER_BY_JPQL = " ORDER BY siteRequest.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_micro_site_SiteRequest.createDate DESC";
@@ -141,6 +142,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
 		attributes.put("status", getStatus());
+		attributes.put("response", getResponse());
 
 		return attributes;
 	}
@@ -199,6 +201,12 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		String response = (String)attributes.get("response");
+
+		if (response != null) {
+			setResponse(response);
 		}
 	}
 
@@ -355,6 +363,21 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		_status = status;
 	}
 
+	@Override
+	public String getResponse() {
+		if (_response == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _response;
+		}
+	}
+
+	@Override
+	public void setResponse(String response) {
+		_response = response;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -395,6 +418,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		siteRequestImpl.setName(getName());
 		siteRequestImpl.setDescription(getDescription());
 		siteRequestImpl.setStatus(getStatus());
+		siteRequestImpl.setResponse(getResponse());
 
 		siteRequestImpl.resetOriginalValues();
 
@@ -516,12 +540,20 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			siteRequestCacheModel.status = null;
 		}
 
+		siteRequestCacheModel.response = getResponse();
+
+		String response = siteRequestCacheModel.response;
+
+		if ((response != null) && (response.length() == 0)) {
+			siteRequestCacheModel.response = null;
+		}
+
 		return siteRequestCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{siteRequestId=");
 		sb.append(getSiteRequestId());
@@ -541,6 +573,8 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		sb.append(getDescription());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", response=");
+		sb.append(getResponse());
 		sb.append("}");
 
 		return sb.toString();
@@ -548,7 +582,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.microsite.model.SiteRequest");
@@ -590,6 +624,10 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>response</column-name><column-value><![CDATA[");
+		sb.append(getResponse());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -616,6 +654,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 	private String _name;
 	private String _description;
 	private String _status;
+	private String _response;
 	private long _columnBitmask;
 	private SiteRequest _escapedModel;
 }

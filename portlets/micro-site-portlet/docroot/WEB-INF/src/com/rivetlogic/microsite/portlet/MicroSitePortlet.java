@@ -36,6 +36,7 @@ import com.rivetlogic.microsite.util.MicroSiteUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -56,16 +57,17 @@ public class MicroSitePortlet extends MVCPortlet {
         String tabs1 = request.getParameter("tabs1");
         request.setAttribute("tabs1", tabs1);
         try {
+            long companyId = themeDisplay.getCompanyId();
+            long userId = themeDisplay.getUserId();
+            request.setAttribute(MicroSiteConstants.MICRO_SITES_LIST,
+                    MicroSiteUtil.findAllMicroSites(companyId, userId));
             if(themeDisplay.isSignedIn()) {
-                long companyId = themeDisplay.getCompanyId();
-                long userId = themeDisplay.getUserId();
-                request.setAttribute(MicroSiteConstants.MICRO_SITES_LIST,
-                        MicroSiteUtil.findAllMicroSites(companyId, userId));
                 request.setAttribute(MicroSiteConstants.SITE_REQUESTS_LIST,
                         SiteRequestLocalServiceUtil.findByCompanyGroup(
                                 themeDisplay.getCompanyGroupId(), themeDisplay.getScopeGroupId()));
             } else {
-                request.setAttribute(MicroSiteConstants.MICRO_SITES_LIST, new ArrayList<MicroSiteBean>());
+                request.setAttribute(MicroSiteConstants.SITE_REQUESTS_LIST,
+                        new ArrayList());
             }
         } catch (SystemException e) {
             _log.error(e);
@@ -136,7 +138,12 @@ public class MicroSitePortlet extends MVCPortlet {
         
         if(siteRequestId >= 0) {
             try {
-                SiteRequestLocalServiceUtil.updateStatus(siteRequestId);
+                String newStatus = ParamUtil.getString(request, MicroSiteConstants.SITE_REQUEST_STATUS);
+                String message = null;
+                if(newStatus.equals(MicroSiteConstants.REQUEST_STATUS_REJECTED)) {
+                    message = ParamUtil.getString(request, MicroSiteConstants.SITE_REQUEST_RESPONSE);
+                }
+                SiteRequestLocalServiceUtil.updateStatus(siteRequestId, newStatus, message);
             } catch (Exception e) {
                 _log.error(e);
             }

@@ -16,10 +16,12 @@
 
 <%@ include file="/html/portlet/sites_admin/init.jsp" %>
 
+<%-- Rivet Custom Imports --%>
 <%@page import="java.text.SimpleDateFormat" %>
 <%@page import="java.util.List" %>
 <%@page import="java.util.Map" %>
 <%@page import="com.liferay.portal.kernel.util.ListUtil" %>
+<%-- Rivet Custom Imports --%>
 
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", "my-sites");
@@ -33,10 +35,11 @@ pageContext.setAttribute("portletURL", portletURL);
 
 request.setAttribute("view.jsp-tabs1", tabs1);
 
+//-- Rivet Custom Code --
 // Uses a generic List and Map because the SiteRequest class is not available in the global ClassLoader.
 List<Map> siteRequestsValues = (List<Map>) request.getAttribute("siteRequestsList");
 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
-
+//-- Rivet Custom Code --
 %>
 
 <liferay-ui:success key="membershipRequestSent" message="your-request-was-sent-you-will-receive-a-reply-by-email" />
@@ -44,7 +47,11 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 		names="my-sites,available-sites,micro-sites-requests"
 		url="<%= portletURL.toString() %>"
 	/>
+	
+	<%--Rivet Custom Code --%>
 	<% if(tabs1.equals("my-sites") || tabs1.equals("available-sites")) { %>
+	<%--Rivet Custom Code --%>
+	
 <aui:form action="<%= portletURL.toString() %>" method="get" name="fm">
 	<liferay-portlet:renderURLParams varImpl="portletURL" />
 
@@ -221,6 +228,7 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 	</liferay-ui:search-container>
 	
 </aui:form>
+<%-- Rivet Custom Code --%>
 <% } else { %>
 		<div id="<portlet:namespace/>list-container">
 		<c:if test="<%=themeDisplay.isSignedIn()%>">
@@ -240,8 +248,14 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 					<%= simpleDateFormat.format(siteRequest.get("modifiedDate")) %>
 				</liferay-ui:search-container-column-text>
 				<liferay-ui:search-container-column-text name="site-request-status">
-					<% String status = "site-request-status-" + siteRequest.get("status"); %>
-					<liferay-ui:message key="<%= status %>" />
+					<%
+						String status = (String) siteRequest.get("status"); 
+						String statusMessage = "site-request-status-" + siteRequest.get("status"); 
+					%>
+					<liferay-ui:message key="<%= statusMessage %>" />
+					<c:if test='<%=status.equals("rejected") %>'>
+						-&nbsp;<%=siteRequest.get("response") %>
+					</c:if>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 			<liferay-ui:search-iterator searchContainer="<%=searchContainer %>"/>
@@ -260,6 +274,7 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 					</aui:input>
 					<aui:input type="textarea" name="description" label="description" helpMessage="site-request-description-help">
 						<aui:validator name="required" />
+						<aui:validator name="maxLength">75</aui:validator>
 					</aui:input>
 					<aui:button value="send" type="submit"/>
 					<aui:button value="cancel" name="cancel-button"/>
@@ -281,3 +296,4 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 			});
 		</aui:script>
 <% } %>
+<%-- Rivet Custom Code --%>

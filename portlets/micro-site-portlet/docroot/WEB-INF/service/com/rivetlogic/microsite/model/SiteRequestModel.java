@@ -204,6 +204,21 @@ public interface SiteRequestModel extends BaseModel<SiteRequest> {
 	 */
 	public void setStatus(String status);
 
+	/**
+	 * Returns the response of this Site Request.
+	 *
+	 * @return the response of this Site Request
+	 */
+	@AutoEscape
+	public String getResponse();
+
+	/**
+	 * Sets the response of this Site Request.
+	 *
+	 * @param response the response of this Site Request
+	 */
+	public void setResponse(String response);
+
 	@Override
 	public boolean isNew();
 
