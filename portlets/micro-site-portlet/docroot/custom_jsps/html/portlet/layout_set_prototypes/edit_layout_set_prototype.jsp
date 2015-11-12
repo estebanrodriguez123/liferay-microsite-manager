@@ -75,17 +75,17 @@ request.setAttribute("edit_layout_set_prototype.jsp-redirect", currentURL);
 		<aui:input name="active" />
 		
 		<%-- START RIVET LOGIC CUSTOMIZATION --%>
-		
-		<div class="ctrl-holder">
-			<liferay-ui:custom-attribute
-					className="com.liferay.portal.model.LayoutSetPrototype:checkboxes"
-					classPK="<%= (layoutSetPrototype.isNew()) ? 0 : layoutSetPrototype.getLayoutSetPrototypeId()  %>"
-					editable="<%= true %>"
-					label="<%= true %>"
-					name="available-for-micro-site-portlet"
-			/>
-		</div>
-		
+			<%if(!layoutSetPrototype.isNew()){ %>
+				<div class="ctrl-holder">
+					<liferay-ui:custom-attribute
+							className="com.liferay.portal.model.LayoutSetPrototype:checkboxes"
+							classPK="<%= (layoutSetPrototype.isNew()) ? 0 : layoutSetPrototype.getLayoutSetPrototypeId()  %>"
+							editable="<%= true %>"
+							label="<%= true %>"
+							name="available-for-micro-site-portlet"
+					/>
+				</div>
+			<%}%>		
 		<%-- END RIVET LOGIC CUSTOMIZATION --%>
 		
 		<aui:input helpMessage="allow-site-administrators-to-modify-pages-associated-with-this-site-template-help" label="allow-site-administrators-to-modify-pages-associated-with-this-site-template" name="layoutsUpdateable" type="checkbox" value="<%= layoutsUpdateable %>" />

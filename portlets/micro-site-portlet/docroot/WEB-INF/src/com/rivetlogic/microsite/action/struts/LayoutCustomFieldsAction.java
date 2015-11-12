@@ -42,7 +42,6 @@ public class LayoutCustomFieldsAction extends BaseStrutsPortletAction {
 	private final String PARAM_ID = "layoutSetPrototypeId";
 	private final long INVALID_ID = -1L;
 	
-	@Override
 	public void processAction(StrutsPortletAction originalStrutsPortletAction,
 			PortletConfig portletConfig, ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
@@ -52,17 +51,16 @@ public class LayoutCustomFieldsAction extends BaseStrutsPortletAction {
 		ServiceContext serviceContext = 
 				ServiceContextFactory.getInstance(LayoutSetPrototype.class.getName(), actionRequest);
 		
-		if(layoutSetPrototypeId != INVALID_ID){
-			
-			LayoutSetPrototype layoutSetPrototype = LayoutSetPrototypeLocalServiceUtil.getLayoutSetPrototype(layoutSetPrototypeId);
+		if(layoutSetPrototypeId > 0){			
+			LayoutSetPrototype layoutSetPrototype = LayoutSetPrototypeLocalServiceUtil
+					.getLayoutSetPrototype(layoutSetPrototypeId);
 			layoutSetPrototype.setExpandoBridgeAttributes(serviceContext);
 			LayoutSetPrototypeLocalServiceUtil.updateLayoutSetPrototype(layoutSetPrototype);
 		}
 		 
-		super.processAction(originalStrutsPortletAction, portletConfig, actionRequest,
-				actionResponse);
-	}
-	
+		originalStrutsPortletAction.processAction(originalStrutsPortletAction, portletConfig, 
+				actionRequest, actionResponse);
+	}	
 
 	public String render(
 			StrutsPortletAction originalStrutsPortletAction,
@@ -72,7 +70,6 @@ public class LayoutCustomFieldsAction extends BaseStrutsPortletAction {
 
 		return originalStrutsPortletAction.render(
 			null, portletConfig, renderRequest, renderResponse);
-
 	}
 
 	public void serveResource(
@@ -84,6 +81,5 @@ public class LayoutCustomFieldsAction extends BaseStrutsPortletAction {
 		originalStrutsPortletAction.serveResource(
 			originalStrutsPortletAction, portletConfig, resourceRequest,
 			resourceResponse);
-
 	}
 }
