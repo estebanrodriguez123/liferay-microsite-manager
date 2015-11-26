@@ -266,6 +266,7 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 			<portlet:actionURL var="actionURL">
 				<portlet:param name="struts_action" value="/add_site_request"/>
 				<portlet:param name="redirect" value="<%=currentURL %>"/>
+				<portlet:param name="add_site" value="true"/>
 			</portlet:actionURL>
 			<aui:form action="<%= actionURL %>">
 				<aui:fieldset>
