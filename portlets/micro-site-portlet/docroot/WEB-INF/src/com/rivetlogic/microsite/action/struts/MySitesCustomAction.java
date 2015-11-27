@@ -28,26 +28,30 @@ public class MySitesCustomAction extends BaseStrutsPortletAction {
     public void processAction(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig,
             ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 
-        ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+        if(actionRequest.getParameter("add_site") != null) {
+            ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+            
+            SiteRequestLocalServiceUtil.add(
+                    themeDisplay.getCompanyGroupId(),
+                    themeDisplay.getScopeGroupId(),
+                    themeDisplay.getUserId(),
+                    actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_NAME),
+                    actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_DESCRIPTION)
+                    );
+        }
         
-        SiteRequestLocalServiceUtil.add(
-                themeDisplay.getCompanyGroupId(),
-                themeDisplay.getScopeGroupId(),
-                themeDisplay.getUserId(),
-                actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_NAME),
-                actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_DESCRIPTION)
-                );
-        
-        actionResponse.sendRedirect(actionRequest.getParameter("redirect"));
-        
-        super.processAction(originalStrutsPortletAction, portletConfig, actionRequest, actionResponse);
+        if(originalStrutsPortletAction != null) {
+            originalStrutsPortletAction.processAction(portletConfig, actionRequest, actionResponse);
+        } else {
+            actionResponse.sendRedirect(actionRequest.getParameter("redirect"));
+        }
     }
     
     @Override
     public String render(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig,
             RenderRequest renderRequest, RenderResponse renderResponse) throws Exception {
-        
-        ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
+ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
         
         List siteRequestValues = new ArrayList();
         
@@ -68,18 +72,15 @@ public class MySitesCustomAction extends BaseStrutsPortletAction {
                 values.put("modifiedDate", siteRequest.getModifiedDate());
                 siteRequestValues.add(values);
             }
-            
         }
        
         renderRequest.setAttribute(MicroSiteConstants.SITE_REQUESTS_LIST, siteRequestValues);
-        
         return originalStrutsPortletAction.render(portletConfig, renderRequest, renderResponse);
     }
     
     @Override
     public void serveResource(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig,
             ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws Exception {
-        
         originalStrutsPortletAction.serveResource(portletConfig, resourceRequest, resourceResponse);
     }
     
