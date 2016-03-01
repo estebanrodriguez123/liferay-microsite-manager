@@ -160,7 +160,7 @@ public class MicroSitePortlet extends MVCPortlet {
             try {
                 Role role = RoleLocalServiceUtil.getRole(companyId, MicroSiteConstants.MICRO_SITE_ADMINISTRATOR);
                 long[] SiteroleIds = {role.getRoleId()};
-                UserGroupRoleLocalServiceUtil.addUserGroupRoles(userId, (long)13101, SiteroleIds);
+                UserGroupRoleLocalServiceUtil.addUserGroupRoles(userId, siteId, SiteroleIds);
             } catch (PortalException e) {
                 _log.error(e);
             } catch (SystemException e) {
