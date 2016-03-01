@@ -116,11 +116,17 @@
 					<liferay-ui:search-container-column-text name="site-request-status">
 						<liferay-ui:message key="site-request-status-${ siteRequest.status}" />
 					</liferay-ui:search-container-column-text>
+					<liferay-ui:search-container-column-text name="site-request-user-settings">
+						<aui:input name="microSiteAdmin" label="Make Admin" type="checkbox"></aui:input>
+						<aui:select name="microSiteList" label="">
+							<c:forEach var="microSite" items="<%= microSitesList %>">
+								<aui:option label="${microSite.getName() }" value="${microSite.getMicroSiteId() }"></aui:option>
+							</c:forEach>
+						</aui:select>
+					</liferay-ui:search-container-column-text>
 					<liferay-ui:search-container-column-jsp path="/html/microsite/request_actions.jsp" align="right" />
 				</liferay-ui:search-container-row>
 				<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" />
 			</liferay-ui:search-container>
 	</liferay-ui:section>
 </liferay-ui:tabs>
-
-

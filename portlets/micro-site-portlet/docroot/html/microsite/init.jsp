@@ -43,6 +43,7 @@
 
 <%@page import="com.liferay.portal.security.auth.AuthException"%>
 <%@page import="com.liferay.portal.security.auth.PrincipalException"%>
+<%@page import="com.liferay.portal.security.auth.CompanyThreadLocal"%>
 <%@page import="com.liferay.portal.DuplicateGroupException" %>
 <%@page import="com.liferay.portal.GroupFriendlyURLException" %>
 <%@page import="com.liferay.portal.GroupNameException" %>

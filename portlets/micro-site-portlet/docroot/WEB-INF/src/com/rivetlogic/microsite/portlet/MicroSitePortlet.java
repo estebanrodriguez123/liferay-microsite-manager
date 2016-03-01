@@ -28,6 +28,10 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
 import com.rivetlogic.microsite.bean.MicroSiteBean;
 import com.rivetlogic.microsite.bean.impl.MicroSiteBeanImpl;
 import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
@@ -133,8 +137,11 @@ public class MicroSitePortlet extends MVCPortlet {
     }
     
     
-    public void updateStatus(ActionRequest request, ActionResponse response) throws IOException {
+    public void updateStatus(ActionRequest request, ActionResponse response) throws IOException{
         long siteRequestId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_ID, -1);
+        long userId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_USER_ID, -1);
+        long companyId =  ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_COMPANY_ID, -1);
+        long siteId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_SITE_ID, -1);
         
         if(siteRequestId >= 0) {
             try {
@@ -147,6 +154,19 @@ public class MicroSitePortlet extends MVCPortlet {
             } catch (Exception e) {
                 _log.error(e);
             }
+        }
+
+        if(siteId >= 0) { // optionally set user as admin of microsite
+            try {
+                Role role = RoleLocalServiceUtil.getRole(companyId, MicroSiteConstants.MICRO_SITE_ADMINISTRATOR);
+                long[] SiteroleIds = {role.getRoleId()};
+                UserGroupRoleLocalServiceUtil.addUserGroupRoles(userId, (long)13101, SiteroleIds);
+            } catch (PortalException e) {
+                _log.error(e);
+            } catch (SystemException e) {
+                _log.error(e);
+            }
+            
         }
         
         sendRedirect(request, response);
