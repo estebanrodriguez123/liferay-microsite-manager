@@ -21,13 +21,14 @@ AUI().add('microsites', function(A) {
 	var portletNamespace = null;
 	var searchSiteTemplateModal = undefined;
 	
-	var CONFIRM_MICRO_SITE_URL;
-	var BASE_MICRO_SITE_URL;
+	var CONFIRM_MICRO_SITE_URL = '';
+	var BASE_MICRO_SITE_URL = '';
 	var CHECKBOX_ADMIN = 'microSiteAdminCheckbox';
 	var DROPDOWN_MICROSITES = 'microSiteList';
 	var DISABLED = 'disabled';
 	var CONFIRM_MICRO_SITE_ANCHOR = 'completeMicroSite';
 	var SITE_ID = 'siteId';
+	var TABLE_CELL = 'table-cell';
 	
 	A.microsites.setIFrameURL = function(url,pns) {
 		iFrameURL = url;
@@ -84,23 +85,30 @@ AUI().add('microsites', function(A) {
 	A.microsites.initUpdateMicroSite = function (portletNS) {
 		portletNamespace = portletNamespace || portletNS;
 		initDropDownMicroSite();
+		setCheckBoxAdminHandler();
 	}
 
-	A.microsites.setConfirmBaseUrl = function (confirmUrl) {
+	// helper functions when updating status and set it as 'complete'
+	function setCheckBoxAdminHandler() {
+		A.all('#' + portletNamespace + CHECKBOX_ADMIN).on('change', function (event) {
+			checkBoxHandler(event, event.target.ancestor('.' + TABLE_CELL).one('#' + portletNamespace + DROPDOWN_MICROSITES));
+		});
+	}
+
+	function setConfirmBaseUrl(confirmUrl) {
 		BASE_MICRO_SITE_URL = BASE_MICRO_SITE_URL || confirmUrl;
 	}
 
-	A.microsites.setCheckBoxAdminHandler = function () {
-		A.one('#' + portletNamespace + CHECKBOX_ADMIN).on('change', checkBoxHandler);
-	}
-
 	function initDropDownMicroSite() {
-		A.one('#' + portletNamespace + DROPDOWN_MICROSITES).setAttribute(DISABLED, DISABLED);
+		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).setAttribute(DISABLED, DISABLED);
+		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).on('change', function (event) {
+			setConfirmMicroSiteUrl(event.target);
+		});
 	}
 
-	function checkBoxHandler(event) {
-		toggleDropDownMicroSite(event, A.one('#' + portletNamespace + DROPDOWN_MICROSITES));
-		setConfirmMicroSiteUrl(A.one('#' + portletNamespace + DROPDOWN_MICROSITES));
+	function checkBoxHandler(event, dropDown) {
+		toggleDropDownMicroSite(event, dropDown);
+		setConfirmMicroSiteUrl(dropDown);
 	}
 
 	function toggleDropDownMicroSite(event, dropDown) {
@@ -112,6 +120,7 @@ AUI().add('microsites', function(A) {
 	}
 
 	function setConfirmMicroSiteUrl(dropDown) {
+		setConfirmBaseUrl(A.one('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).attr('href'));
 		var siteId = getDropDownValue(dropDown);
 		if (0 <= siteId) {
 			CONFIRM_MICRO_SITE_URL = buildActionUrl(siteId);

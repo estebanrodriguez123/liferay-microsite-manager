@@ -57,9 +57,3 @@
 		</c:when>
 	</c:choose>
 </liferay-ui:icon-menu>
-
-<aui:script use="microsites">
-	A.microsites.initUpdateMicroSite('${pns}')
-	A.microsites.setConfirmBaseUrl('<%=completeURL%>')
-	A.microsites.setCheckBoxAdminHandler()
-</aui:script>
