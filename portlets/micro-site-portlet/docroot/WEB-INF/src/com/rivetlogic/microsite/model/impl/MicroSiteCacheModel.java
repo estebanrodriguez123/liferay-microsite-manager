@@ -38,7 +38,7 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{microSiteId=");
 		sb.append(microSiteId);
@@ -54,6 +54,8 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 		sb.append(modifiedDate);
 		sb.append(", groupId=");
 		sb.append(groupId);
+		sb.append(", siteId=");
+		sb.append(siteId);
 		sb.append("}");
 
 		return sb.toString();
@@ -89,6 +91,7 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 		}
 
 		microSiteImpl.setGroupId(groupId);
+		microSiteImpl.setSiteId(siteId);
 
 		microSiteImpl.resetOriginalValues();
 
@@ -104,6 +107,7 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		groupId = objectInput.readLong();
+		siteId = objectInput.readLong();
 	}
 
 	@Override
@@ -123,6 +127,7 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 		objectOutput.writeLong(groupId);
+		objectOutput.writeLong(siteId);
 	}
 
 	public long microSiteId;
@@ -132,4 +137,5 @@ public class MicroSiteCacheModel implements CacheModel<MicroSite>,
 	public long createDate;
 	public long modifiedDate;
 	public long groupId;
+	public long siteId;
 }

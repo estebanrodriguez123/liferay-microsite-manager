@@ -127,6 +127,12 @@
 									</c:forEach>
 								</aui:select>
 							</c:when>
+							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_COMPLETE) %>">
+								<c:set var="microSiteName" value="<%=MicroSiteUtil.getMicroSiteNameInList(siteRequest.getSiteId(), microSitesList)%>"></c:set>
+								<c:if test="${not empty microSiteName}">
+									<liferay-ui:message key="site-request-user-set-admin"/> ${microSiteName}
+								</c:if>
+							</c:when>
 						</c:choose>
 					</liferay-ui:search-container-column-text>
 					<liferay-ui:search-container-column-jsp path="/html/microsite/request_actions.jsp" align="right" />

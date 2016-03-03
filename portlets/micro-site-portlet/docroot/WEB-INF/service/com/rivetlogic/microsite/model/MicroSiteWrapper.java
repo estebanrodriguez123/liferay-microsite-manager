@@ -56,6 +56,7 @@ public class MicroSiteWrapper implements MicroSite, ModelWrapper<MicroSite> {
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("groupId", getGroupId());
+		attributes.put("siteId", getSiteId());
 
 		return attributes;
 	}
@@ -102,6 +103,12 @@ public class MicroSiteWrapper implements MicroSite, ModelWrapper<MicroSite> {
 
 		if (groupId != null) {
 			setGroupId(groupId);
+		}
+
+		Long siteId = (Long)attributes.get("siteId");
+
+		if (siteId != null) {
+			setSiteId(siteId);
 		}
 	}
 
@@ -285,6 +292,26 @@ public class MicroSiteWrapper implements MicroSite, ModelWrapper<MicroSite> {
 	@Override
 	public void setGroupId(long groupId) {
 		_microSite.setGroupId(groupId);
+	}
+
+	/**
+	* Returns the site ID of this micro site.
+	*
+	* @return the site ID of this micro site
+	*/
+	@Override
+	public long getSiteId() {
+		return _microSite.getSiteId();
+	}
+
+	/**
+	* Sets the site ID of this micro site.
+	*
+	* @param siteId the site ID of this micro site
+	*/
+	@Override
+	public void setSiteId(long siteId) {
+		_microSite.setSiteId(siteId);
 	}
 
 	@Override

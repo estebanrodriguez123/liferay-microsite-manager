@@ -150,7 +150,7 @@ public class MicroSitePortlet extends MVCPortlet {
                 if(newStatus.equals(MicroSiteConstants.REQUEST_STATUS_REJECTED)) {
                     message = ParamUtil.getString(request, MicroSiteConstants.SITE_REQUEST_RESPONSE);
                 }
-                SiteRequestLocalServiceUtil.updateStatus(siteRequestId, newStatus, message);
+                SiteRequestLocalServiceUtil.updateStatus(siteRequestId, siteId, newStatus, message);
             } catch (Exception e) {
                 _log.error(e);
             }

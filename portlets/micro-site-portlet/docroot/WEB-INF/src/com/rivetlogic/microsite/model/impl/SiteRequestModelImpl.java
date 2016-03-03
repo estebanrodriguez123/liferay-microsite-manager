@@ -71,9 +71,10 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			{ "name", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
 			{ "status", Types.VARCHAR },
-			{ "response", Types.VARCHAR }
+			{ "response", Types.VARCHAR },
+			{ "siteId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_SiteRequest (siteRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,description VARCHAR(75) null,status VARCHAR(75) null,response VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_SiteRequest (siteRequestId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,description VARCHAR(75) null,status VARCHAR(75) null,response VARCHAR(75) null,siteId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_micro_site_SiteRequest";
 	public static final String ORDER_BY_JPQL = " ORDER BY siteRequest.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_micro_site_SiteRequest.createDate DESC";
@@ -143,6 +144,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		attributes.put("description", getDescription());
 		attributes.put("status", getStatus());
 		attributes.put("response", getResponse());
+		attributes.put("siteId", getSiteId());
 
 		return attributes;
 	}
@@ -207,6 +209,12 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 
 		if (response != null) {
 			setResponse(response);
+		}
+
+		Long siteId = (Long)attributes.get("siteId");
+
+		if (siteId != null) {
+			setSiteId(siteId);
 		}
 	}
 
@@ -378,6 +386,16 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		_response = response;
 	}
 
+	@Override
+	public long getSiteId() {
+		return _siteId;
+	}
+
+	@Override
+	public void setSiteId(long siteId) {
+		_siteId = siteId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -419,6 +437,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		siteRequestImpl.setDescription(getDescription());
 		siteRequestImpl.setStatus(getStatus());
 		siteRequestImpl.setResponse(getResponse());
+		siteRequestImpl.setSiteId(getSiteId());
 
 		siteRequestImpl.resetOriginalValues();
 
@@ -548,12 +567,14 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			siteRequestCacheModel.response = null;
 		}
 
+		siteRequestCacheModel.siteId = getSiteId();
+
 		return siteRequestCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{siteRequestId=");
 		sb.append(getSiteRequestId());
@@ -575,6 +596,8 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 		sb.append(getStatus());
 		sb.append(", response=");
 		sb.append(getResponse());
+		sb.append(", siteId=");
+		sb.append(getSiteId());
 		sb.append("}");
 
 		return sb.toString();
@@ -582,7 +605,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.microsite.model.SiteRequest");
@@ -628,6 +651,10 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 			"<column><column-name>response</column-name><column-value><![CDATA[");
 		sb.append(getResponse());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>siteId</column-name><column-value><![CDATA[");
+		sb.append(getSiteId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -655,6 +682,7 @@ public class SiteRequestModelImpl extends BaseModelImpl<SiteRequest>
 	private String _description;
 	private String _status;
 	private String _response;
+	private long _siteId;
 	private long _columnBitmask;
 	private SiteRequest _escapedModel;
 }

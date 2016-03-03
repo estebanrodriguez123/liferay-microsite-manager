@@ -21,6 +21,7 @@
 		<!-- Other fields -->
 
 		<column name="groupId" type="long" />
+		<column name="siteId" type="long" />
 
 		<!-- Order -->
 
@@ -67,6 +68,7 @@
         <column name="description" type="String"></column>
         <column name="status" type="String"></column>
         <column name="response" type="String"></column>
+        <column name="siteId" type="long"></column>
         <order by="desc">
             <order-column order-by="desc" name="createDate"></order-column>
         </order>
