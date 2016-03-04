@@ -67,9 +67,10 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
-			{ "groupId", Types.BIGINT }
+			{ "groupId", Types.BIGINT },
+			{ "siteId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_MicroSite (microSiteId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,groupId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_micro_site_MicroSite (microSiteId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,groupId LONG,siteId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_micro_site_MicroSite";
 	public static final String ORDER_BY_JPQL = " ORDER BY microSite.userId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_micro_site_MicroSite.userId ASC";
@@ -135,6 +136,7 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("groupId", getGroupId());
+		attributes.put("siteId", getSiteId());
 
 		return attributes;
 	}
@@ -181,6 +183,12 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 
 		if (groupId != null) {
 			setGroupId(groupId);
+		}
+
+		Long siteId = (Long)attributes.get("siteId");
+
+		if (siteId != null) {
+			setSiteId(siteId);
 		}
 	}
 
@@ -305,6 +313,16 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 		return _originalGroupId;
 	}
 
+	@Override
+	public long getSiteId() {
+		return _siteId;
+	}
+
+	@Override
+	public void setSiteId(long siteId) {
+		_siteId = siteId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -343,6 +361,7 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 		microSiteImpl.setCreateDate(getCreateDate());
 		microSiteImpl.setModifiedDate(getModifiedDate());
 		microSiteImpl.setGroupId(getGroupId());
+		microSiteImpl.setSiteId(getSiteId());
 
 		microSiteImpl.resetOriginalValues();
 
@@ -454,12 +473,14 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 
 		microSiteCacheModel.groupId = getGroupId();
 
+		microSiteCacheModel.siteId = getSiteId();
+
 		return microSiteCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{microSiteId=");
 		sb.append(getMicroSiteId());
@@ -475,6 +496,8 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 		sb.append(getModifiedDate());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
+		sb.append(", siteId=");
+		sb.append(getSiteId());
 		sb.append("}");
 
 		return sb.toString();
@@ -482,7 +505,7 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.microsite.model.MicroSite");
@@ -516,6 +539,10 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 			"<column><column-name>groupId</column-name><column-value><![CDATA[");
 		sb.append(getGroupId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>siteId</column-name><column-value><![CDATA[");
+		sb.append(getSiteId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -540,6 +567,7 @@ public class MicroSiteModelImpl extends BaseModelImpl<MicroSite>
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
+	private long _siteId;
 	private long _columnBitmask;
 	private MicroSite _escapedModel;
 }

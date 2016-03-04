@@ -312,11 +312,11 @@ public class SiteRequestLocalServiceUtil {
 		getService().add(companyId, groupId, userId, name, description);
 	}
 
-	public static void updateStatus(long siteRequestId,
+	public static void updateStatus(long siteRequestId, long siteId,
 		java.lang.String newStatus, java.lang.String message)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
-		getService().updateStatus(siteRequestId, newStatus, message);
+		getService().updateStatus(siteRequestId, siteId, newStatus, message);
 	}
 
 	public static void clearService() {

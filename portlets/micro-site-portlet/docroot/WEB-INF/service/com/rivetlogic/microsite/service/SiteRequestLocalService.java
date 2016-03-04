@@ -277,8 +277,8 @@ public interface SiteRequestLocalService extends BaseLocalService,
 		java.lang.String name, java.lang.String description)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public void updateStatus(long siteRequestId, java.lang.String newStatus,
-		java.lang.String message)
+	public void updateStatus(long siteRequestId, long siteId,
+		java.lang.String newStatus, java.lang.String message)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException;
 }

@@ -81,6 +81,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("groupId", getGroupId());
+		attributes.put("siteId", getSiteId());
 
 		return attributes;
 	}
@@ -127,6 +128,12 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 
 		if (groupId != null) {
 			setGroupId(groupId);
+		}
+
+		Long siteId = (Long)attributes.get("siteId");
+
+		if (siteId != null) {
+			setSiteId(siteId);
 		}
 	}
 
@@ -301,6 +308,29 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		}
 	}
 
+	@Override
+	public long getSiteId() {
+		return _siteId;
+	}
+
+	@Override
+	public void setSiteId(long siteId) {
+		_siteId = siteId;
+
+		if (_microSiteRemoteModel != null) {
+			try {
+				Class<?> clazz = _microSiteRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSiteId", long.class);
+
+				method.invoke(_microSiteRemoteModel, siteId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getMicroSiteRemoteModel() {
 		return _microSiteRemoteModel;
 	}
@@ -377,6 +407,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		clone.setCreateDate(getCreateDate());
 		clone.setModifiedDate(getModifiedDate());
 		clone.setGroupId(getGroupId());
+		clone.setSiteId(getSiteId());
 
 		return clone;
 	}
@@ -435,7 +466,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{microSiteId=");
 		sb.append(getMicroSiteId());
@@ -451,6 +482,8 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 		sb.append(getModifiedDate());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
+		sb.append(", siteId=");
+		sb.append(getSiteId());
 		sb.append("}");
 
 		return sb.toString();
@@ -458,7 +491,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.microsite.model.MicroSite");
@@ -492,6 +525,10 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 			"<column><column-name>groupId</column-name><column-value><![CDATA[");
 		sb.append(getGroupId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>siteId</column-name><column-value><![CDATA[");
+		sb.append(getSiteId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -506,6 +543,7 @@ public class MicroSiteClp extends BaseModelImpl<MicroSite> implements MicroSite 
 	private Date _createDate;
 	private Date _modifiedDate;
 	private long _groupId;
+	private long _siteId;
 	private BaseModel<?> _microSiteRemoteModel;
 	private Class<?> _clpSerializerClass = com.rivetlogic.microsite.service.ClpSerializer.class;
 }

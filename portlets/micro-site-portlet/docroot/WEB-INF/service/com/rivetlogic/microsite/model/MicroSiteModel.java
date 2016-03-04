@@ -189,6 +189,20 @@ public interface MicroSiteModel extends BaseModel<MicroSite>, GroupedModel {
 	@Override
 	public void setGroupId(long groupId);
 
+	/**
+	 * Returns the site ID of this micro site.
+	 *
+	 * @return the site ID of this micro site
+	 */
+	public long getSiteId();
+
+	/**
+	 * Sets the site ID of this micro site.
+	 *
+	 * @param siteId the site ID of this micro site
+	 */
+	public void setSiteId(long siteId);
+
 	@Override
 	public boolean isNew();
 
@@ -226,19 +240,19 @@ public interface MicroSiteModel extends BaseModel<MicroSite>, GroupedModel {
 	public Object clone();
 
 	@Override
-	public int compareTo(MicroSite microSite);
+	public int compareTo(com.rivetlogic.microsite.model.MicroSite microSite);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<MicroSite> toCacheModel();
+	public CacheModel<com.rivetlogic.microsite.model.MicroSite> toCacheModel();
 
 	@Override
-	public MicroSite toEscapedModel();
+	public com.rivetlogic.microsite.model.MicroSite toEscapedModel();
 
 	@Override
-	public MicroSite toUnescapedModel();
+	public com.rivetlogic.microsite.model.MicroSite toUnescapedModel();
 
 	@Override
 	public String toString();

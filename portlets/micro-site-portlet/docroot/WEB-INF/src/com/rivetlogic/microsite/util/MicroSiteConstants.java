@@ -74,10 +74,17 @@ public class MicroSiteConstants {
     public final static String SITE_REQUEST_DESCRIPTION = "description";
     public final static String SITE_REQUEST_RESPONSE = "response";
     public final static String SITE_REQUEST_STATUS = "status";
+    public final static String SITE_REQUEST_USER_ID = "userId";
+    public final static String SITE_REQUEST_COMPANY_ID = "companyId";
+    public final static String SITE_REQUEST_SITE_ID = "siteId";
     
     public static final String REQUEST_STATUS_PENDING = "pending";
     public static final String REQUEST_STATUS_PROCESSING = "processing";
     public static final String REQUEST_STATUS_COMPLETE = "complete";
     public static final String REQUEST_STATUS_REJECTED = "rejected";
+
+    // ROLES
+    public static final String MICRO_SITE_ADMINISTRATOR = "Site Administrator";
+    public static final String MICRO_SITE_OWNER = "Site Owner";
     
 }

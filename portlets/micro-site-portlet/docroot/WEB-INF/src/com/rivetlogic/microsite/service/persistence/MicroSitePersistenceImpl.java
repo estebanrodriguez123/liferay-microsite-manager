@@ -1468,6 +1468,7 @@ public class MicroSitePersistenceImpl extends BasePersistenceImpl<MicroSite>
 		microSiteImpl.setCreateDate(microSite.getCreateDate());
 		microSiteImpl.setModifiedDate(microSite.getModifiedDate());
 		microSiteImpl.setGroupId(microSite.getGroupId());
+		microSiteImpl.setSiteId(microSite.getSiteId());
 
 		return microSiteImpl;
 	}

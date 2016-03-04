@@ -1,0 +1,15 @@
+.microsites-portlet-requests .site-request-user-settings {
+	width: 25%;
+}
+
+.microsites-portlet-requests .site-request-user-settings .microsite-admin-checkbox {
+	vertical-align: baseline;
+}
+
+.microsites-portlet-requests .site-request-user-settings .control-label {
+	display: inline-block;
+}
+
+.microsites-portlet-requests .site-request-user-settings .control-group {
+	margin-bottom: 0;
+}

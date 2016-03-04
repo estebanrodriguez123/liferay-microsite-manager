@@ -37,6 +37,7 @@ public class MicroSiteSoap implements Serializable {
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setGroupId(model.getGroupId());
+		soapModel.setSiteId(model.getSiteId());
 
 		return soapModel;
 	}
@@ -145,6 +146,14 @@ public class MicroSiteSoap implements Serializable {
 		_groupId = groupId;
 	}
 
+	public long getSiteId() {
+		return _siteId;
+	}
+
+	public void setSiteId(long siteId) {
+		_siteId = siteId;
+	}
+
 	private long _microSiteId;
 	private long _companyId;
 	private long _userId;
@@ -152,4 +161,5 @@ public class MicroSiteSoap implements Serializable {
 	private Date _createDate;
 	private Date _modifiedDate;
 	private long _groupId;
+	private long _siteId;
 }

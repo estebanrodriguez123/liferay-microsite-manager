@@ -21,6 +21,15 @@ AUI().add('microsites', function(A) {
 	var portletNamespace = null;
 	var searchSiteTemplateModal = undefined;
 	
+	var CONFIRM_MICRO_SITE_URL = '';
+	var BASE_MICRO_SITE_URL = '';
+	var CHECKBOX_ADMIN = 'microSiteAdminCheckbox';
+	var DROPDOWN_MICROSITES = 'microSiteList';
+	var DISABLED = 'disabled';
+	var CONFIRM_MICRO_SITE_ANCHOR = 'completeMicroSite';
+	var SITE_ID = 'siteId';
+	var TABLE_CELL = 'table-cell';
+	
 	A.microsites.setIFrameURL = function(url,pns) {
 		iFrameURL = url;
 		portletNamespace = pns;
@@ -71,11 +80,71 @@ AUI().add('microsites', function(A) {
 			A.one('#'+portletNamespace+'friendlyURL').set('value', '/'+value);
 		});
 	};
-	
+
+	// called when updating a microsite status
+	A.microsites.initUpdateMicroSite = function (portletNS) {
+		portletNamespace = portletNamespace || portletNS;
+		initDropDownMicroSite();
+		setCheckBoxAdminHandler();
+	}
+
+	// helper functions when updating status and set it as 'complete'
+	function setCheckBoxAdminHandler() {
+		A.all('#' + portletNamespace + CHECKBOX_ADMIN).on('change', function (event) {
+			checkBoxHandler(event, event.target.ancestor('.' + TABLE_CELL).one('#' + portletNamespace + DROPDOWN_MICROSITES));
+		});
+	}
+
+	function setConfirmBaseUrl(confirmUrl) {
+		BASE_MICRO_SITE_URL = BASE_MICRO_SITE_URL || confirmUrl;
+	}
+
+	function initDropDownMicroSite() {
+		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).setAttribute(DISABLED, DISABLED);
+		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).on('change', function (event) {
+			setConfirmMicroSiteUrl(event.target);
+		});
+	}
+
+	function checkBoxHandler(event, dropDown) {
+		toggleDropDownMicroSite(event, dropDown);
+		setConfirmMicroSiteUrl(dropDown);
+	}
+
+	function toggleDropDownMicroSite(event, dropDown) {
+		if (dropDown.attr(DISABLED)) {
+			dropDown.removeAttribute(DISABLED);
+		} else {
+			dropDown.setAttribute(DISABLED, DISABLED);
+		}
+	}
+
+	function setConfirmMicroSiteUrl(dropDown) {
+		setConfirmBaseUrl(A.one('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).attr('href'));
+		var siteId = getDropDownValue(dropDown);
+		if (0 <= siteId) {
+			CONFIRM_MICRO_SITE_URL = buildActionUrl(siteId);
+		} else {
+			CONFIRM_MICRO_SITE_URL = BASE_MICRO_SITE_URL;
+		}
+
+		A.one('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).setAttribute('href', CONFIRM_MICRO_SITE_URL.toString());
+	}
+
+	function buildActionUrl (siteId) {
+		var url = new Liferay.PortletURL.createActionURL();
+		url.options.basePortletURL = BASE_MICRO_SITE_URL;
+		url.setParameter(SITE_ID, siteId);
+		return url;
+	}
+
+	function getDropDownValue(dropDown) {
+		return dropDown.attr(DISABLED) ? -1 : dropDown.val();
+	}
 },
 '',
 {
-	requires:['aui-base','aui-modal']
+	requires:['aui-base','aui-modal', 'aui-io-request','liferay-portlet-url']
 });
 
 AUI().add('modal_site_template', function(A) {

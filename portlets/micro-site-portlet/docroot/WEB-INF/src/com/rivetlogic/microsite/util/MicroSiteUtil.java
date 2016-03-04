@@ -107,6 +107,17 @@ public class MicroSiteUtil {
         }
         return microSitesBean;
     }
+
+    public static String getMicroSiteNameInList (long microSiteId, List<MicroSiteBean> microSitesList) throws PortalException, SystemException {
+        String microSiteName = "";
+        for(MicroSiteBean site: microSitesList) {
+            if (site.getMicroSiteId() == microSiteId) {
+                microSiteName = site.getName();
+            }
+        }
+
+        return microSiteName;
+    }
     
     public static List<SiteTemplateBean> getSiteTemplateList(PortletRequest request) 
             throws SystemException, PortalException {

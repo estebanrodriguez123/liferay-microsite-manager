@@ -38,6 +38,7 @@
 
 <liferay-ui:success key="rivet_create_micro_site_success_msg" message="created-micro-site-success-msg"/>
 
+<div class="microsites-portlet-requests">
 <liferay-ui:tabs names="micro-sites-list,micro-sites-requests" tabsValues="micro-sites-list,micro-sites-requests"
 	url="<%= portletURL.toString() %>" >
 	<liferay-ui:section>
@@ -116,11 +117,31 @@
 					<liferay-ui:search-container-column-text name="site-request-status">
 						<liferay-ui:message key="site-request-status-${ siteRequest.status}" />
 					</liferay-ui:search-container-column-text>
+					<liferay-ui:search-container-column-text name="site-request-user-settings" cssClass="site-request-user-settings">
+						<c:choose>
+							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PROCESSING) %>">
+								<label class=""><input type="checkbox" class="microsite-admin-checkbox" id="${pns}microSiteAdminCheckbox" /> <liferay-ui:message key="site-request-make-user-admin" /></label>
+								<aui:select name="microSiteList" label="site-request-site-list">
+									<c:forEach var="microSite" items="<%= microSitesList %>">
+										<aui:option label="${microSite.getName() }" value="${microSite.getMicroSiteId() }"></aui:option>
+									</c:forEach>
+								</aui:select>
+							</c:when>
+							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_COMPLETE) %>">
+								<c:set var="microSiteName" value="<%=MicroSiteUtil.getMicroSiteNameInList(siteRequest.getSiteId(), microSitesList)%>"></c:set>
+								<c:if test="${not empty microSiteName}">
+									<liferay-ui:message key="site-request-user-set-admin"/> ${microSiteName}
+								</c:if>
+							</c:when>
+						</c:choose>
+					</liferay-ui:search-container-column-text>
 					<liferay-ui:search-container-column-jsp path="/html/microsite/request_actions.jsp" align="right" />
 				</liferay-ui:search-container-row>
 				<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" />
 			</liferay-ui:search-container>
 	</liferay-ui:section>
 </liferay-ui:tabs>
-
-
+</div>
+<aui:script use="microsites">
+	A.microsites.initUpdateMicroSite('${pns}')
+</aui:script>
