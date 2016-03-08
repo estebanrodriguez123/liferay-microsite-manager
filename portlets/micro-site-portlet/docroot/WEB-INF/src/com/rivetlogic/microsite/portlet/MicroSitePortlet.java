@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
@@ -31,7 +32,10 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
+import com.rivetlogic.microsite.action.struts.MySitesCustomAction;
 import com.rivetlogic.microsite.bean.MicroSiteBean;
 import com.rivetlogic.microsite.bean.impl.MicroSiteBeanImpl;
 import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
@@ -137,11 +141,13 @@ public class MicroSitePortlet extends MVCPortlet {
     }
     
     
-    public void updateStatus(ActionRequest request, ActionResponse response) throws IOException{
+    public void updateStatus(ActionRequest request, ActionResponse response) throws Exception {
         long siteRequestId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_ID, -1);
         long userId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_USER_ID, -1);
         long companyId =  ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_COMPANY_ID, -1);
         long siteId = ParamUtil.getLong(request, MicroSiteConstants.SITE_REQUEST_SITE_ID, -1);
+        User admin = (User) request.getAttribute(WebKeys.USER);
+        ServiceContext serviceContext = ServiceContextFactory.getInstance(MicroSitePortlet.class.getName(), request);
         
         if(siteRequestId >= 0) {
             try {
@@ -150,7 +156,7 @@ public class MicroSitePortlet extends MVCPortlet {
                 if(newStatus.equals(MicroSiteConstants.REQUEST_STATUS_REJECTED)) {
                     message = ParamUtil.getString(request, MicroSiteConstants.SITE_REQUEST_RESPONSE);
                 }
-                SiteRequestLocalServiceUtil.updateStatus(siteRequestId, siteId, newStatus, message);
+                SiteRequestLocalServiceUtil.updateStatus(siteRequestId, siteId, newStatus, message, admin.getUserId(), serviceContext);
             } catch (Exception e) {
                 _log.error(e);
             }
