@@ -219,6 +219,20 @@ public interface SiteRequestModel extends BaseModel<SiteRequest> {
 	 */
 	public void setResponse(String response);
 
+	/**
+	 * Returns the site ID of this Site Request.
+	 *
+	 * @return the site ID of this Site Request
+	 */
+	public long getSiteId();
+
+	/**
+	 * Sets the site ID of this Site Request.
+	 *
+	 * @param siteId the site ID of this Site Request
+	 */
+	public void setSiteId(long siteId);
+
 	@Override
 	public boolean isNew();
 
@@ -256,19 +270,19 @@ public interface SiteRequestModel extends BaseModel<SiteRequest> {
 	public Object clone();
 
 	@Override
-	public int compareTo(SiteRequest siteRequest);
+	public int compareTo(com.rivetlogic.microsite.model.SiteRequest siteRequest);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<SiteRequest> toCacheModel();
+	public CacheModel<com.rivetlogic.microsite.model.SiteRequest> toCacheModel();
 
 	@Override
-	public SiteRequest toEscapedModel();
+	public com.rivetlogic.microsite.model.SiteRequest toEscapedModel();
 
 	@Override
-	public SiteRequest toUnescapedModel();
+	public com.rivetlogic.microsite.model.SiteRequest toUnescapedModel();
 
 	@Override
 	public String toString();

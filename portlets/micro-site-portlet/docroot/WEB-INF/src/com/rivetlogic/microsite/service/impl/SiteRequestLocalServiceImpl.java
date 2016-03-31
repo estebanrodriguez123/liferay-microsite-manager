@@ -87,7 +87,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         siteRequestPersistence.update(siteRequest);
     }
     
-    public void updateStatus(long siteRequestId, String newStatus, String message)
+    public void updateStatus(long siteRequestId, long siteId, String newStatus, String message)
             throws NoSuchSiteRequestException, SystemException {
         SiteRequest siteRequest = siteRequestPersistence.findByPrimaryKey(siteRequestId);
         
@@ -96,6 +96,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         }
         siteRequest.setStatus(newStatus);
         siteRequest.setModifiedDate(new Date());
+        siteRequest.setSiteId(siteId);
         
         siteRequestPersistence.update(siteRequest);
     }

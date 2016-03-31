@@ -5,7 +5,8 @@ create table rivetlogic_micro_site_MicroSite (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	groupId LONG
+	groupId LONG,
+	siteId LONG
 );
 
 create table rivetlogic_micro_site_SiteRequest (
@@ -18,5 +19,6 @@ create table rivetlogic_micro_site_SiteRequest (
 	name VARCHAR(75) null,
 	description VARCHAR(75) null,
 	status VARCHAR(75) null,
-	response VARCHAR(75) null
+	response VARCHAR(75) null,
+	siteId LONG
 );

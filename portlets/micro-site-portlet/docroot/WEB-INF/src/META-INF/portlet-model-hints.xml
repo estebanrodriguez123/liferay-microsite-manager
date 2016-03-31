@@ -9,6 +9,7 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="groupId" type="long" />
+		<field name="siteId" type="long" />
 	</model>
 	<model name="com.rivetlogic.microsite.model.SiteRequest">
 		<field name="siteRequestId" type="long" />
@@ -21,5 +22,6 @@
 		<field name="description" type="String" />
 		<field name="status" type="String" />
 		<field name="response" type="String" />
+		<field name="siteId" type="long" />
 	</model>
 </model-hints>

@@ -5,6 +5,7 @@
 	
 	SiteRequest siteRequest = (SiteRequest) row.getObject();
 	
+	long companyId = CompanyThreadLocal.getCompanyId();
 %>
 
 <portlet:renderURL var="portletURL">
@@ -27,8 +28,10 @@
 <portlet:actionURL name="updateStatus" var="completeURL">
 	<portlet:param name="<%=MicroSiteConstants.SITE_REQUEST_ID %>" value="<%=Long.toString(siteRequest.getSiteRequestId()) %>"/>
 	<portlet:param name="redirect" value="<%= portletURL.toString() %>"/>
-	<portlet:param name="<%= MicroSiteConstants.SITE_REQUEST_STATUS %>"
+	<portlet:param name="<%=MicroSiteConstants.SITE_REQUEST_STATUS %>"
 		 value="<%= MicroSiteConstants.REQUEST_STATUS_COMPLETE %>" />
+	<portlet:param name="<%=MicroSiteConstants.SITE_REQUEST_USER_ID %>" value="<%=Long.toString(siteRequest.getUserId()) %>" />
+	<portlet:param name="<%=MicroSiteConstants.SITE_REQUEST_COMPANY_ID %>" value="<%= Long.toString(companyId) %>" />
 </portlet:actionURL>
 			
 <portlet:actionURL name="updateStatus" var="cancelURL">
@@ -48,7 +51,7 @@
 		</c:when>
 		<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_PROCESSING) %>">
 			<liferay-ui:icon image="request-complete" src="/micro-site-portlet/icons/request-complete.png"
-				 message="site-request-complete" url="<%=completeURL.toString() %>" />
+				 message="site-request-complete" id="completeMicroSite" url="<%=completeURL.toString() %>" />
 			<liferay-ui:icon image="request-cancel" src="/micro-site-portlet/icons/request-cancel.png" 
 				message="site-request-cancel" url="<%=cancelURL.toString() %>"  />
 		</c:when>
