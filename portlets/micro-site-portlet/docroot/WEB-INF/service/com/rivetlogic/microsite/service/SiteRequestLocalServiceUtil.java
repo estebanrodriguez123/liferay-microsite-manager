@@ -307,16 +307,21 @@ public class SiteRequestLocalServiceUtil {
 	}
 
 	public static void add(long companyId, long groupId, long userId,
-		java.lang.String name, java.lang.String description)
+		java.lang.String name, java.lang.String description,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().add(companyId, groupId, userId, name, description);
+		getService()
+			.add(companyId, groupId, userId, name, description, serviceContext);
 	}
 
 	public static void updateStatus(long siteRequestId, long siteId,
-		java.lang.String newStatus, java.lang.String message)
+		java.lang.String newStatus, java.lang.String message, long adminId,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
-		getService().updateStatus(siteRequestId, siteId, newStatus, message);
+		getService()
+			.updateStatus(siteRequestId, siteId, newStatus, message, adminId,
+			serviceContext);
 	}
 
 	public static void clearService() {

@@ -14,9 +14,23 @@
 
 package com.rivetlogic.microsite.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.model.User;
+import com.liferay.portal.security.auth.CompanyThreadLocal;
+import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.service.UserNotificationEventLocalServiceUtil;
 import com.rivetlogic.microsite.NoSuchSiteRequestException;
 import com.rivetlogic.microsite.model.SiteRequest;
+import com.rivetlogic.microsite.notifications.MicrositeNotificationHandler;
 import com.rivetlogic.microsite.service.base.SiteRequestLocalServiceBaseImpl;
 import com.rivetlogic.microsite.util.MicroSiteConstants;
 
@@ -69,7 +83,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         return siteRequestPersistence.findByCompanyGroupUser(companyId, groupId, userId, start, end);
     }
     
-    public void add(long companyId, long groupId, long userId, String name, String description) 
+    public void add(long companyId, long groupId, long userId, String name, String description, ServiceContext serviceContext) 
             throws SystemException {
         long id = counterLocalService.increment(SiteRequest.class.getName());
         SiteRequest siteRequest = siteRequestPersistence.create(id);
@@ -83,11 +97,36 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         siteRequest.setCreateDate(now);
         siteRequest.setModifiedDate(now);
         siteRequest.setStatus(MicroSiteConstants.REQUEST_STATUS_PENDING);
-        
-        siteRequestPersistence.update(siteRequest);
+		
+		siteRequestPersistence.update(siteRequest);
+		
+		JSONObject notificationEventJSONObject = JSONFactoryUtil.createJSONObject();
+
+		notificationEventJSONObject.put("siteRequestId", id);
+		notificationEventJSONObject.put("userId", siteRequest.getUserId());
+		notificationEventJSONObject.put("notificationType", MicroSiteConstants.REQUEST_STATUS_PENDING);
+        notificationEventJSONObject.put("siteRequestName", siteRequest.getName());
+        notificationEventJSONObject.put("siteRequestDescription", siteRequest.getDescription());
+
+		try {
+			Role role = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "MICROSITE_REQUESTS_MANAGER");
+			if (Validator.isNotNull(role)) {
+				List<User> users = UserLocalServiceUtil.getRoleUsers(role.getRoleId());
+
+				for (User adminUser : users) {
+					UserNotificationEventLocalServiceUtil.addUserNotificationEvent(adminUser.getUserId(), 
+							MicrositeNotificationHandler.PORTLET_ID, new Date().getTime(), siteRequest.getUserId(), 
+							notificationEventJSONObject.toString(), false, serviceContext);
+				}
+
+			}
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+		}
     }
     
-    public void updateStatus(long siteRequestId, long siteId, String newStatus, String message)
+    public void updateStatus(long siteRequestId, long siteId, String newStatus, 
+    		String message, long adminId, ServiceContext serviceContext)
             throws NoSuchSiteRequestException, SystemException {
         SiteRequest siteRequest = siteRequestPersistence.findByPrimaryKey(siteRequestId);
         
@@ -99,6 +138,29 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         siteRequest.setSiteId(siteId);
         
         siteRequestPersistence.update(siteRequest);
+
+        if (newStatus.equals(MicroSiteConstants.REQUEST_STATUS_COMPLETE) ||
+            newStatus.equals(MicroSiteConstants.REQUEST_STATUS_REJECTED)) {
+            
+        	JSONObject notificationEventJSONObject = JSONFactoryUtil.createJSONObject();
+
+    		notificationEventJSONObject.put("siteRequestId", siteRequest.getSiteRequestId());
+    		notificationEventJSONObject.put("userId", siteRequest.getUserId());
+    		notificationEventJSONObject.put("notificationType", newStatus);
+            notificationEventJSONObject.put("siteRequestName", siteRequest.getName());
+            notificationEventJSONObject.put("siteRequestDescription", siteRequest.getDescription());
+            
+        	try {
+				UserNotificationEventLocalServiceUtil.addUserNotificationEvent(siteRequest.getUserId(), 
+						MicrositeNotificationHandler.PORTLET_ID, new Date().getTime(), adminId, 
+						notificationEventJSONObject.toString(), false, serviceContext);
+				
+			} catch (PortalException e) {
+				_log.error(e.getMessage());
+			}
+        }
     }
+    
+    private static final Log _log = LogFactoryUtil.getLog(SiteRequestLocalServiceImpl.class);
     
 }
