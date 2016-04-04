@@ -32,5 +32,6 @@
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="response" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="siteId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="admin" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 </hibernate-mapping>

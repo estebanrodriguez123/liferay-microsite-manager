@@ -147,7 +147,7 @@ public class SiteRequestLocalServiceClpInvoker {
 
 		_methodParameterTypes48 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "long",
-				"com.liferay.portal.service.ServiceContext"
+				"boolean", "com.liferay.portal.service.ServiceContext"
 			};
 	}
 
@@ -302,7 +302,8 @@ public class SiteRequestLocalServiceClpInvoker {
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
 				((Long)arguments[4]).longValue(),
-				(com.liferay.portal.service.ServiceContext)arguments[5]);
+				((Boolean)arguments[5]).booleanValue(),
+				(com.liferay.portal.service.ServiceContext)arguments[6]);
 
 			return null;
 		}

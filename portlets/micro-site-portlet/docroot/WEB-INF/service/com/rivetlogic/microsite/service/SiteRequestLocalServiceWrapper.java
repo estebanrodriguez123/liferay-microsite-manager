@@ -335,11 +335,12 @@ public class SiteRequestLocalServiceWrapper implements SiteRequestLocalService,
 	@Override
 	public void updateStatus(long siteRequestId, long siteId,
 		java.lang.String newStatus, java.lang.String message, long adminId,
+		boolean setAdmin,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
 		_siteRequestLocalService.updateStatus(siteRequestId, siteId, newStatus,
-			message, adminId, serviceContext);
+			message, adminId, setAdmin, serviceContext);
 	}
 
 	/**

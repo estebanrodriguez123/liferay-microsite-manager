@@ -74,6 +74,7 @@ ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.TH
                     values.put("response", siteRequest.getResponse());
                 }
                 values.put("modifiedDate", siteRequest.getModifiedDate());
+                values.put("admin", siteRequest.isAdmin());
                 siteRequestValues.add(values);
             }
         }

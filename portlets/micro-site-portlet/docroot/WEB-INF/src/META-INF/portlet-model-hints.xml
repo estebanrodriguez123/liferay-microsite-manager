@@ -23,5 +23,6 @@
 		<field name="status" type="String" />
 		<field name="response" type="String" />
 		<field name="siteId" type="long" />
+		<field name="admin" type="boolean" />
 	</model>
 </model-hints>

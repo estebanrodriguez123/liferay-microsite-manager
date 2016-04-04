@@ -233,6 +233,27 @@ public interface SiteRequestModel extends BaseModel<SiteRequest> {
 	 */
 	public void setSiteId(long siteId);
 
+	/**
+	 * Returns the admin of this Site Request.
+	 *
+	 * @return the admin of this Site Request
+	 */
+	public boolean getAdmin();
+
+	/**
+	 * Returns <code>true</code> if this Site Request is admin.
+	 *
+	 * @return <code>true</code> if this Site Request is admin; <code>false</code> otherwise
+	 */
+	public boolean isAdmin();
+
+	/**
+	 * Sets whether this Site Request is admin.
+	 *
+	 * @param admin the admin of this Site Request
+	 */
+	public void setAdmin(boolean admin);
+
 	@Override
 	public boolean isNew();
 
@@ -270,19 +291,19 @@ public interface SiteRequestModel extends BaseModel<SiteRequest> {
 	public Object clone();
 
 	@Override
-	public int compareTo(com.rivetlogic.microsite.model.SiteRequest siteRequest);
+	public int compareTo(SiteRequest siteRequest);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<com.rivetlogic.microsite.model.SiteRequest> toCacheModel();
+	public CacheModel<SiteRequest> toCacheModel();
 
 	@Override
-	public com.rivetlogic.microsite.model.SiteRequest toEscapedModel();
+	public SiteRequest toEscapedModel();
 
 	@Override
-	public com.rivetlogic.microsite.model.SiteRequest toUnescapedModel();
+	public SiteRequest toUnescapedModel();
 
 	@Override
 	public String toString();

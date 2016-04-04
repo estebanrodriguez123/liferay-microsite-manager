@@ -316,12 +316,13 @@ public class SiteRequestLocalServiceUtil {
 
 	public static void updateStatus(long siteRequestId, long siteId,
 		java.lang.String newStatus, java.lang.String message, long adminId,
+		boolean setAdmin,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
 		getService()
 			.updateStatus(siteRequestId, siteId, newStatus, message, adminId,
-			serviceContext);
+			setAdmin, serviceContext);
 	}
 
 	public static void clearService() {

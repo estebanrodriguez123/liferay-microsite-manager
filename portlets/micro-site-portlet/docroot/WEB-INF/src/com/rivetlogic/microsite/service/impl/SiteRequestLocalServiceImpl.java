@@ -115,7 +115,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
 
 				for (User adminUser : users) {
 					UserNotificationEventLocalServiceUtil.addUserNotificationEvent(adminUser.getUserId(), 
-							MicrositeNotificationHandler.PORTLET_ID, new Date().getTime(), siteRequest.getUserId(), 
+							MicrositeNotificationHandler.MICROSITES_PORTLET_ID, new Date().getTime(), siteRequest.getUserId(), 
 							notificationEventJSONObject.toString(), false, serviceContext);
 				}
 
@@ -126,7 +126,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
     }
     
     public void updateStatus(long siteRequestId, long siteId, String newStatus, 
-    		String message, long adminId, ServiceContext serviceContext)
+    		String message, long adminId, boolean setAdmin, ServiceContext serviceContext)
             throws NoSuchSiteRequestException, SystemException {
         SiteRequest siteRequest = siteRequestPersistence.findByPrimaryKey(siteRequestId);
         
@@ -136,6 +136,7 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
         siteRequest.setStatus(newStatus);
         siteRequest.setModifiedDate(new Date());
         siteRequest.setSiteId(siteId);
+        siteRequest.setAdmin(setAdmin);
         
         siteRequestPersistence.update(siteRequest);
 
@@ -149,10 +150,11 @@ public class SiteRequestLocalServiceImpl extends SiteRequestLocalServiceBaseImpl
     		notificationEventJSONObject.put("notificationType", newStatus);
             notificationEventJSONObject.put("siteRequestName", siteRequest.getName());
             notificationEventJSONObject.put("siteRequestDescription", siteRequest.getDescription());
+            notificationEventJSONObject.put("siteId", siteId);
             
         	try {
 				UserNotificationEventLocalServiceUtil.addUserNotificationEvent(siteRequest.getUserId(), 
-						MicrositeNotificationHandler.PORTLET_ID, new Date().getTime(), adminId, 
+						MicrositeNotificationHandler.MICROSITES_PORTLET_ID, new Date().getTime(), adminId, 
 						notificationEventJSONObject.toString(), false, serviceContext);
 				
 			} catch (PortalException e) {

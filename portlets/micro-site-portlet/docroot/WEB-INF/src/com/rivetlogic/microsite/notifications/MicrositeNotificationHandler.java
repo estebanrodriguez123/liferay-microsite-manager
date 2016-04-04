@@ -19,13 +19,14 @@ package com.rivetlogic.microsite.notifications;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.notifications.BaseUserNotificationHandler;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.UserNotificationEvent;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserNotificationEventLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -37,13 +38,13 @@ import com.rivetlogic.microsite.util.MicroSiteConstants;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import javax.portlet.WindowState;
 
 public class MicrositeNotificationHandler extends BaseUserNotificationHandler {
-	public static final String PORTLET_ID = "microsite_WAR_micrositePortlet";
+	public static final String MICROSITES_PORTLET_ID = "microsite_WAR_micrositeportlet";
+	public static final String MY_SITES_PORTLET_ID = "29";
 
 	public MicrositeNotificationHandler() {
-		setPortletId(PORTLET_ID);
+		setPortletId(MICROSITES_PORTLET_ID);
 	}
 
 	@Override
@@ -72,37 +73,44 @@ public class MicrositeNotificationHandler extends BaseUserNotificationHandler {
 	@Override
 	protected String getLink(UserNotificationEvent userNotificationEvent, 
 			ServiceContext serviceContext) throws Exception {
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(userNotificationEvent.getPayload());
-		long siteRequestId = jsonObject.getLong("siteRequestId");
-		String notificationType = jsonObject.getString("notificationType");
-		ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
-		long portletPlid = PortalUtil.getPlidFromPortletId(themeDisplay.getScopeGroupId(), PORTLET_ID);
-		PortletURL portletUrl = null;
-		
-		if (portletPlid != 0) {
-			portletUrl = PortletURLFactoryUtil.
-					create(serviceContext.getLiferayPortletRequest(), PORTLET_ID, portletPlid, PortletRequest.RENDER_PHASE);
-			portletUrl.setParameter("mvcPath", getMvcPath(notificationType));
-			portletUrl.setParameter("redirect", serviceContext.getLayoutFullURL());
-			portletUrl.setParameter("siteRequestId", String.valueOf(siteRequestId));
-			
-			return portletUrl.toString();
-		} else {
-			LiferayPortletResponse liferayPortletResponse = serviceContext.getLiferayPortletResponse();
-			PortletURL viewUrl = liferayPortletResponse.createRenderURL(PORTLET_ID);
-			viewUrl.setParameter("mvcPath", getMvcPath(notificationType));
-			viewUrl.setParameter("redirect", serviceContext.getLayoutFullURL());
-			viewUrl.setParameter("siteRequestId", String.valueOf(siteRequestId));
-			viewUrl.setParameter("userNotificationEventId", String.valueOf(userNotificationEvent.getUserNotificationEventId()));
-			viewUrl.setWindowState(WindowState.NORMAL);
-			
-			return viewUrl.toString();
-		}
-	}
-
-	private String getMvcPath(String notificationType) {
-		String mvcPath = "/html/microsite/view.jsp";
-		return mvcPath;
+	    JSONObject jsonObject = JSONFactoryUtil.createJSONObject(userNotificationEvent.getPayload());
+        String notificationType = jsonObject.getString("notificationType");
+        ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
+        long portletPlid = 0L;
+        PortletURL portletUrl = null;
+	    
+	    switch(notificationType) {
+            case MicroSiteConstants.REQUEST_STATUS_PENDING:
+                portletPlid = PortalUtil.getPlidFromPortletId(themeDisplay.getScopeGroupId(), MICROSITES_PORTLET_ID);
+                if(portletPlid != 0) {
+                    portletUrl = PortletURLFactoryUtil.
+                          create(serviceContext.getLiferayPortletRequest(), MICROSITES_PORTLET_ID, portletPlid, PortletRequest.RENDER_PHASE);
+                    portletUrl.setParameter("redirect", serviceContext.getLayoutFullURL());
+                    portletUrl.setParameter("tabs1","micro-sites-requests");
+                    return portletUrl.toString();
+                }
+                return null;
+            case MicroSiteConstants.REQUEST_STATUS_COMPLETE:
+                long siteId = jsonObject.getLong("siteId");
+                Group group = GroupLocalServiceUtil.fetchGroup(siteId);
+                if(group != null) {
+                    return "/web" + group.getFriendlyURL();
+                }
+                return null;
+            case MicroSiteConstants.REQUEST_STATUS_REJECTED:
+                portletPlid = PortalUtil.getPlidFromPortletId(themeDisplay.getScopeGroupId(), MY_SITES_PORTLET_ID);
+                if(portletPlid != 0) {
+                    portletUrl = PortletURLFactoryUtil.
+                          create(serviceContext.getLiferayPortletRequest(), MY_SITES_PORTLET_ID, portletPlid, PortletRequest.RENDER_PHASE);
+                    portletUrl.setParameter("redirect", serviceContext.getLayoutFullURL());
+                    portletUrl.setParameter("tabs1","micro-sites-requests");
+                    return portletUrl.toString();
+                }
+                return null;
+            default:
+                return null;
+        }
+	    
 	}
 
 	private String getBodyTemplate() {

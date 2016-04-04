@@ -44,6 +44,7 @@
 			<basic name="status" />
 			<basic name="response" />
 			<basic name="siteId" />
+			<basic name="admin" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

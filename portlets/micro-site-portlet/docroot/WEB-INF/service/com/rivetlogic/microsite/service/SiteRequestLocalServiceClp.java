@@ -148,7 +148,7 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 
 		_methodParameterTypes25 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "long",
-				"com.liferay.portal.service.ServiceContext"
+				"boolean", "com.liferay.portal.service.ServiceContext"
 			};
 	}
 
@@ -890,6 +890,7 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 	@Override
 	public void updateStatus(long siteRequestId, long siteId,
 		java.lang.String newStatus, java.lang.String message, long adminId,
+		boolean setAdmin,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
@@ -906,6 +907,8 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 				ClpSerializer.translateInput(message),
 					
 				adminId,
+					
+				setAdmin,
 					
 				ClpSerializer.translateInput(serviceContext)
 				});

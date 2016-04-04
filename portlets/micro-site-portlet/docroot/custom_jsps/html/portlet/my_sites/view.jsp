@@ -256,6 +256,9 @@ SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/y");
 					<c:if test='<%=status.equals("rejected") %>'>
 						-&nbsp;<%=siteRequest.get("response") %>
 					</c:if>
+					<c:if test='<%=((Boolean)siteRequest.get("admin")) %>'>
+						-&nbsp; You are the administrator for this site.
+					</c:if>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 			<liferay-ui:search-iterator searchContainer="<%=searchContainer %>"/>

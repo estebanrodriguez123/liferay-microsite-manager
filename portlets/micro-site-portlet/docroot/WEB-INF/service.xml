@@ -69,6 +69,8 @@
         <column name="status" type="String"></column>
         <column name="response" type="String"></column>
         <column name="siteId" type="long"></column>
+        <column name="admin" type ="boolean"></column>
+        
         <order by="desc">
             <order-column order-by="desc" name="createDate"></order-column>
         </order>
