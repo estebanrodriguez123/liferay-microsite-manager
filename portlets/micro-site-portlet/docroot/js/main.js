@@ -25,9 +25,9 @@ AUI().add('microsites', function(A) {
 	var BASE_MICRO_SITE_URL = '';
 	var CHECKBOX_ADMIN = 'microSiteAdminCheckbox';
 	var DROPDOWN_MICROSITES = 'microSiteList';
-	var DISABLED = 'disabled';
 	var CONFIRM_MICRO_SITE_ANCHOR = 'completeMicroSite';
 	var SITE_ID = 'siteId';
+	var SET_ADMIN = 'setAdmin';
 	var TABLE_CELL = 'table-cell';
 	
 	A.microsites.setIFrameURL = function(url,pns) {
@@ -86,12 +86,13 @@ AUI().add('microsites', function(A) {
 		portletNamespace = portletNamespace || portletNS;
 		initDropDownMicroSite();
 		setCheckBoxAdminHandler();
+		setConfirmMicroSiteUrl(A.all('#' + portletNamespace + CHECKBOX_ADMIN), A.all('#' + portletNamespace + DROPDOWN_MICROSITES));
 	}
 
 	// helper functions when updating status and set it as 'complete'
 	function setCheckBoxAdminHandler() {
 		A.all('#' + portletNamespace + CHECKBOX_ADMIN).on('change', function (event) {
-			checkBoxHandler(event, event.target.ancestor('.' + TABLE_CELL).one('#' + portletNamespace + DROPDOWN_MICROSITES));
+			checkBoxHandler(event, this, event.target.ancestor('.' + TABLE_CELL).all('#' + portletNamespace + DROPDOWN_MICROSITES));
 		});
 	}
 
@@ -100,46 +101,33 @@ AUI().add('microsites', function(A) {
 	}
 
 	function initDropDownMicroSite() {
-		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).setAttribute(DISABLED, DISABLED);
 		A.all('#' + portletNamespace + DROPDOWN_MICROSITES).on('change', function (event) {
-			setConfirmMicroSiteUrl(event.target);
+			setConfirmMicroSiteUrl(A.one('#' + portletNamespace + CHECKBOX_ADMIN), event.target);
 		});
 	}
 
-	function checkBoxHandler(event, dropDown) {
-		toggleDropDownMicroSite(event, dropDown);
-		setConfirmMicroSiteUrl(dropDown);
+	function checkBoxHandler(event, checkbox, dropDown) {
+		setConfirmMicroSiteUrl(checkbox, dropDown);
 	}
 
-	function toggleDropDownMicroSite(event, dropDown) {
-		if (dropDown.attr(DISABLED)) {
-			dropDown.removeAttribute(DISABLED);
-		} else {
-			dropDown.setAttribute(DISABLED, DISABLED);
-		}
-	}
-
-	function setConfirmMicroSiteUrl(dropDown) {
-		setConfirmBaseUrl(A.one('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).attr('href'));
+	function setConfirmMicroSiteUrl(checkbox, dropDown) {
+		if(!checkbox || !dropDown) return;
+		setConfirmBaseUrl(A.all('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).attr('href'));
 		var siteId = getDropDownValue(dropDown);
-		if (0 <= siteId) {
-			CONFIRM_MICRO_SITE_URL = buildActionUrl(siteId);
-		} else {
-			CONFIRM_MICRO_SITE_URL = BASE_MICRO_SITE_URL;
-		}
-
-		A.one('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).setAttribute('href', CONFIRM_MICRO_SITE_URL.toString());
+		CONFIRM_MICRO_SITE_URL = buildActionUrl(siteId, checkbox.attr('checked')[0]);
+		A.all('#' + portletNamespace + CONFIRM_MICRO_SITE_ANCHOR).setAttribute('href', CONFIRM_MICRO_SITE_URL.toString());
 	}
 
-	function buildActionUrl (siteId) {
+	function buildActionUrl (siteId, setAdmin) {
 		var url = new Liferay.PortletURL.createActionURL();
 		url.options.basePortletURL = BASE_MICRO_SITE_URL;
 		url.setParameter(SITE_ID, siteId);
+		url.setParameter(SET_ADMIN, setAdmin);
 		return url;
 	}
 
 	function getDropDownValue(dropDown) {
-		return dropDown.attr(DISABLED) ? -1 : dropDown.val();
+		return dropDown.val();
 	}
 },
 '',

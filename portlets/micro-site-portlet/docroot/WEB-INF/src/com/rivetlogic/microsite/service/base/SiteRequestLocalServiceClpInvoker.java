@@ -139,13 +139,15 @@ public class SiteRequestLocalServiceClpInvoker {
 		_methodName47 = "add";
 
 		_methodParameterTypes47 = new String[] {
-				"long", "long", "long", "java.lang.String", "java.lang.String"
+				"long", "long", "long", "java.lang.String", "java.lang.String",
+				"com.liferay.portal.service.ServiceContext"
 			};
 
 		_methodName48 = "updateStatus";
 
 		_methodParameterTypes48 = new String[] {
-				"long", "long", "java.lang.String", "java.lang.String"
+				"long", "long", "java.lang.String", "java.lang.String", "long",
+				"boolean", "com.liferay.portal.service.ServiceContext"
 			};
 	}
 
@@ -288,7 +290,8 @@ public class SiteRequestLocalServiceClpInvoker {
 			SiteRequestLocalServiceUtil.add(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue(),
-				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
+				(java.lang.String)arguments[3], (java.lang.String)arguments[4],
+				(com.liferay.portal.service.ServiceContext)arguments[5]);
 
 			return null;
 		}
@@ -297,7 +300,10 @@ public class SiteRequestLocalServiceClpInvoker {
 				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
 			SiteRequestLocalServiceUtil.updateStatus(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
-				(java.lang.String)arguments[2], (java.lang.String)arguments[3]);
+				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
+				((Long)arguments[4]).longValue(),
+				((Boolean)arguments[5]).booleanValue(),
+				(com.liferay.portal.service.ServiceContext)arguments[6]);
 
 			return null;
 		}

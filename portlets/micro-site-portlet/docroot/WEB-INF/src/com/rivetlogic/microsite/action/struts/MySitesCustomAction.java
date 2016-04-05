@@ -3,6 +3,8 @@ package com.rivetlogic.microsite.action.struts;
 import com.liferay.portal.kernel.struts.BaseStrutsPortletAction;
 import com.liferay.portal.kernel.struts.StrutsPortletAction;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.rivetlogic.microsite.model.SiteRequest;
 import com.rivetlogic.microsite.service.SiteRequestLocalServiceUtil;
@@ -29,6 +31,7 @@ public class MySitesCustomAction extends BaseStrutsPortletAction {
             ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 
         if(actionRequest.getParameter("add_site") != null) {
+        	ServiceContext serviceContext = ServiceContextFactory.getInstance(MySitesCustomAction.class.getName(), actionRequest);
             ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
             
             SiteRequestLocalServiceUtil.add(
@@ -36,7 +39,8 @@ public class MySitesCustomAction extends BaseStrutsPortletAction {
                     themeDisplay.getScopeGroupId(),
                     themeDisplay.getUserId(),
                     actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_NAME),
-                    actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_DESCRIPTION)
+                    actionRequest.getParameter(MicroSiteConstants.SITE_REQUEST_DESCRIPTION),
+                    serviceContext
                     );
         }
         
@@ -70,6 +74,7 @@ ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.TH
                     values.put("response", siteRequest.getResponse());
                 }
                 values.put("modifiedDate", siteRequest.getModifiedDate());
+                values.put("admin", siteRequest.isAdmin());
                 siteRequestValues.add(values);
             }
         }

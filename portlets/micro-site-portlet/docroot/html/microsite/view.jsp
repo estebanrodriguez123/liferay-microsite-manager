@@ -128,9 +128,8 @@
 								</aui:select>
 							</c:when>
 							<c:when test="<%= siteRequest.getStatus().equals(MicroSiteConstants.REQUEST_STATUS_COMPLETE) %>">
-								<c:set var="microSiteName" value="<%=MicroSiteUtil.getMicroSiteNameInList(siteRequest.getSiteId(), microSitesList)%>"></c:set>
-								<c:if test="${not empty microSiteName}">
-									<liferay-ui:message key="site-request-user-set-admin"/> ${microSiteName}
+								<c:if test="${siteRequest.isAdmin()}">
+									<liferay-ui:message key="site-request-user-set-admin"/>
 								</c:if>
 							</c:when>
 						</c:choose>

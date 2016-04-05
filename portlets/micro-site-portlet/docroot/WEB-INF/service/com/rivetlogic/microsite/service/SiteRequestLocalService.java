@@ -274,11 +274,14 @@ public interface SiteRequestLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public void add(long companyId, long groupId, long userId,
-		java.lang.String name, java.lang.String description)
+		java.lang.String name, java.lang.String description,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public void updateStatus(long siteRequestId, long siteId,
-		java.lang.String newStatus, java.lang.String message)
+		java.lang.String newStatus, java.lang.String message, long adminId,
+		boolean setAdmin,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException;
 }

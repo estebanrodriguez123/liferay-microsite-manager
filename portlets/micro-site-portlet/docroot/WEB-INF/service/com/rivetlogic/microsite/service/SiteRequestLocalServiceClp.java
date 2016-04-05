@@ -140,13 +140,15 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 		_methodName24 = "add";
 
 		_methodParameterTypes24 = new String[] {
-				"long", "long", "long", "java.lang.String", "java.lang.String"
+				"long", "long", "long", "java.lang.String", "java.lang.String",
+				"com.liferay.portal.service.ServiceContext"
 			};
 
 		_methodName25 = "updateStatus";
 
 		_methodParameterTypes25 = new String[] {
-				"long", "long", "java.lang.String", "java.lang.String"
+				"long", "long", "java.lang.String", "java.lang.String", "long",
+				"boolean", "com.liferay.portal.service.ServiceContext"
 			};
 	}
 
@@ -848,7 +850,8 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 
 	@Override
 	public void add(long companyId, long groupId, long userId,
-		java.lang.String name, java.lang.String description)
+		java.lang.String name, java.lang.String description,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName24,
@@ -862,7 +865,9 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 					
 				ClpSerializer.translateInput(name),
 					
-				ClpSerializer.translateInput(description)
+				ClpSerializer.translateInput(description),
+					
+				ClpSerializer.translateInput(serviceContext)
 				});
 		}
 		catch (Throwable t) {
@@ -884,7 +889,9 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 
 	@Override
 	public void updateStatus(long siteRequestId, long siteId,
-		java.lang.String newStatus, java.lang.String message)
+		java.lang.String newStatus, java.lang.String message, long adminId,
+		boolean setAdmin,
+		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.rivetlogic.microsite.NoSuchSiteRequestException {
 		try {
@@ -897,7 +904,13 @@ public class SiteRequestLocalServiceClp implements SiteRequestLocalService {
 					
 				ClpSerializer.translateInput(newStatus),
 					
-				ClpSerializer.translateInput(message)
+				ClpSerializer.translateInput(message),
+					
+				adminId,
+					
+				setAdmin,
+					
+				ClpSerializer.translateInput(serviceContext)
 				});
 		}
 		catch (Throwable t) {

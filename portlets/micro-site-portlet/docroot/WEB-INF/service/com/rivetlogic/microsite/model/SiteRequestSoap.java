@@ -41,6 +41,7 @@ public class SiteRequestSoap implements Serializable {
 		soapModel.setStatus(model.getStatus());
 		soapModel.setResponse(model.getResponse());
 		soapModel.setSiteId(model.getSiteId());
+		soapModel.setAdmin(model.getAdmin());
 
 		return soapModel;
 	}
@@ -181,6 +182,18 @@ public class SiteRequestSoap implements Serializable {
 		_siteId = siteId;
 	}
 
+	public boolean getAdmin() {
+		return _admin;
+	}
+
+	public boolean isAdmin() {
+		return _admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		_admin = admin;
+	}
+
 	private long _siteRequestId;
 	private long _groupId;
 	private long _companyId;
@@ -192,4 +205,5 @@ public class SiteRequestSoap implements Serializable {
 	private String _status;
 	private String _response;
 	private long _siteId;
+	private boolean _admin;
 }

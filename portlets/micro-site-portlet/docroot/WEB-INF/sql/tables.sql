@@ -20,5 +20,6 @@ create table rivetlogic_micro_site_SiteRequest (
 	description VARCHAR(75) null,
 	status VARCHAR(75) null,
 	response VARCHAR(75) null,
-	siteId LONG
+	siteId LONG,
+	admin BOOLEAN
 );

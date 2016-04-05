@@ -77,6 +77,7 @@ public class MicroSiteConstants {
     public final static String SITE_REQUEST_USER_ID = "userId";
     public final static String SITE_REQUEST_COMPANY_ID = "companyId";
     public final static String SITE_REQUEST_SITE_ID = "siteId";
+    public final static String SITE_REQUEST_SET_ADMIN = "setAdmin";
     
     public static final String REQUEST_STATUS_PENDING = "pending";
     public static final String REQUEST_STATUS_PROCESSING = "processing";

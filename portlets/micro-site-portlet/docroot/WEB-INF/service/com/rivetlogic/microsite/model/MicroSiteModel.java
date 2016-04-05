@@ -240,19 +240,19 @@ public interface MicroSiteModel extends BaseModel<MicroSite>, GroupedModel {
 	public Object clone();
 
 	@Override
-	public int compareTo(com.rivetlogic.microsite.model.MicroSite microSite);
+	public int compareTo(MicroSite microSite);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<com.rivetlogic.microsite.model.MicroSite> toCacheModel();
+	public CacheModel<MicroSite> toCacheModel();
 
 	@Override
-	public com.rivetlogic.microsite.model.MicroSite toEscapedModel();
+	public MicroSite toEscapedModel();
 
 	@Override
-	public com.rivetlogic.microsite.model.MicroSite toUnescapedModel();
+	public MicroSite toUnescapedModel();
 
 	@Override
 	public String toString();

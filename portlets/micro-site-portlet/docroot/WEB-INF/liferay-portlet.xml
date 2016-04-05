@@ -6,6 +6,8 @@
 	<portlet>
 		<portlet-name>microsite</portlet-name>
 		<icon>/icon.png</icon>
+		<user-notification-definitions>microsite-notification-definitions.xml</user-notification-definitions>
+		<user-notification-handler-class>com.rivetlogic.microsite.notifications.MicrositeNotificationHandler</user-notification-handler-class>
 		<instanceable>false</instanceable>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>
